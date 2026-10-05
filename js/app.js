@@ -332,6 +332,7 @@
         quantite: offre.qte,
         articles: lignes.map((l) => `${S.coloris.find((c) => c.id === l.coloris).court} / ${l.taille || "?"}`).join(" + "),
         total: total(),
+        club: form.club.checked ? "oui" : "non",
         source: Object.entries(store.get("diwan_utm", {})).map(([k, v]) => `${k}=${v}`).join("&"),
         page: location.href,
       };
@@ -418,6 +419,7 @@
       $("#recap").innerHTML = [
         ["Commande", d.id], ["Articles", d.articles], ["Livraison", `${d.ville} · ${d.adresse}`], ["Téléphone", d.telephone], ["À payer à la livraison", mad(d.total)],
       ].map(([k, v]) => `<div><span>${k}</span><b>${v}</b></div>`).join("");
+      if (d.club === "oui") $("#club-merci").hidden = false;
       const msg = `Bonjour DIWAN, je confirme ma commande ${d.id} : ${d.articles} — ${mad(d.total)}. Nom : ${d.nom}, ${d.ville}.`;
       $("#wa-confirmer").href = `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
     } else {

@@ -13,7 +13,7 @@
  * commande non validée) est mis à jour en « nouvelle » s'il finit par commander :
  * les partiels restants sont à rappeler (paniers abandonnés).
  */
-const COLONNES = ["id", "date", "statut", "nom", "telephone", "ville", "adresse", "offre", "quantite", "articles", "total", "source", "page", "suivi"];
+const COLONNES = ["id", "date", "statut", "nom", "telephone", "ville", "adresse", "offre", "quantite", "articles", "total", "club", "commandes_precedentes", "source", "page", "suivi"];
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -22,6 +22,10 @@ function doPost(e) {
     const d = JSON.parse(e.postData.contents);
     const sheet = feuille_();
     const ids = sheet.getRange(2, 1, Math.max(sheet.getLastRow() - 1, 1), 1).getValues().flat();
+    // Fidélité : nombre de commandes validées déjà passées avec ce numéro (sert à fixer la remise Club)
+    const tel = (v) => String(v).replace(/\D/g, "").replace(/^0/, "");
+    const lignes = sheet.getLastRow() > 1 ? sheet.getRange(2, 1, sheet.getLastRow() - 1, 5).getValues() : [];
+    d.commandes_precedentes = lignes.filter((r) => r[0] !== d.id && r[2] !== "partiel" && tel(r[4]) === tel(d.telephone)).length;
     const ligne = COLONNES.map((c) => (c === "suivi" ? "" : d[c] ?? ""));
     const i = ids.indexOf(d.id);
     if (i >= 0) {
@@ -47,6 +51,7 @@ function feuille_() {
     sh.appendRow(COLONNES);
     sh.getRange(1, 1, 1, COLONNES.length).setFontWeight("bold").setBackground("#0d0c0a").setFontColor("#f4efe6");
     sh.setFrozenRows(1);
+    sh.getRange("E:E").setNumberFormat("@"); // garde le 0 au début des numéros
   }
   return sh;
 }

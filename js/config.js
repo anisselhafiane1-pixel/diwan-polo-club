@@ -8,7 +8,7 @@ window.STORE = {
   devise: "MAD",
 
   // Numéro WhatsApp au format international, sans + ni espaces (ex : 212612345678)
-  whatsapp: "212600000000",
+  whatsapp: "212708876151",
 
   // URL du script Google Sheets (voir google-apps-script.gs). Vide = mode test (commandes gardées dans le navigateur).
   leadsEndpoint: "",
