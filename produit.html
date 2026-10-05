@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Le Polo Club — DIWAN POLO CLUB</title>
+  <meta name="description" content="Polo manches longues en coton piqué 320 g/m², brodé, confectionné au Maroc. Noir, Bordeaux ou Marine. Paiement à la livraison partout au Maroc.">
+  <meta property="og:title" content="Le Polo Club — DIWAN">
+  <meta property="og:image" content="assets/bordeaux-studio.jpg">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#f4efe6">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=6">
+</head>
+<body data-page="produit">
+
+  <div class="annonce"><div class="annonce-piste"></div></div>
+
+  <header class="entete page">
+    <div class="wrap">
+      <nav class="nav">
+        <a href="index.html#collection-section">Collection</a>
+        <a href="index.html#maison">La Maison</a>
+        <a href="#faq">Questions</a>
+      </nav>
+      <a href="index.html" class="logo" aria-label="DIWAN POLO CLUB, accueil">
+        <svg class="embleme" viewBox="0 0 24 32" aria-hidden="true"><path d="M3 31V12Q3 5 12 1Q21 5 21 12V31Z"/><path d="M7 27L17 8M17 27L7 8"/></svg>
+        <span>DIWAN</span>
+      </a>
+      <div class="entete-droite"><a href="#achat" class="btn-entete" data-vers-commande><span>Commander</span></a></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <p class="fil"><a href="index.html">Accueil</a> / <a href="index.html#collection-section">Collection</a> / Le Polo Club</p>
+
+      <!-- ============ ACHAT ============ -->
+      <div class="produit" id="achat">
+        <div class="galerie">
+          <div class="vignettes"></div>
+          <div class="visuel-principal"><span class="badge-serie">Série limitée · <span data-serie></span> pièces</span></div>
+        </div>
+
+        <div class="achat">
+          <p class="eyebrow">DIWAN POLO CLUB · Collection N°1</p>
+          <h1>Le Polo Club</h1>
+          <p class="accroche">Le polo épais qu'on remarque, et qui garde sa tenue toute la journée.</p>
+
+          <div class="ligne-prix"><span class="prix" data-prix></span><span class="eco">Paiement à la livraison</span></div>
+          <p class="note-serie"><span class="point-vivant"></span> Première série : <span data-serie></span> pièces par coloris, sans réédition prévue.</p>
+
+          <div class="choix">
+            <div class="choix-titre"><span>Coloris</span><em id="nom-coloris"></em></div>
+            <div class="couleurs" id="coloris"></div>
+            <p class="phrase-coloris" id="phrase-coloris"></p>
+          </div>
+
+          <div class="choix">
+            <div class="choix-titre"><span>Votre offre</span></div>
+            <div class="offres" id="offres"></div>
+          </div>
+
+          <form id="commande" class="formulaire" novalidate>
+            <span class="formulaire-titre">Commande · Paiement à la livraison</span>
+
+            <div class="choix-titre"><span>Coloris & taille</span><button type="button" data-guide>Guide des tailles</button></div>
+            <div id="lignes"></div>
+            <p class="msg-taille" id="err-taille" hidden>Choisissez une taille pour chaque polo.</p>
+
+            <div class="champ">
+              <label for="nom">Nom complet</label>
+              <input id="nom" name="nom" autocomplete="name" placeholder="Ex : Youssef Benali">
+              <p class="msg">Indiquez votre nom et prénom.</p>
+            </div>
+            <div class="champ">
+              <label for="telephone">Téléphone</label>
+              <input id="telephone" name="telephone" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 XX XX XX XX">
+              <p class="msg">Numéro marocain invalide (ex : 06 12 34 56 78).</p>
+            </div>
+            <div class="deux">
+              <div class="champ">
+                <label for="ville">Ville</label>
+                <select id="ville" name="ville" autocomplete="address-level2"></select>
+                <p class="msg">Choisissez votre ville.</p>
+              </div>
+              <div class="champ">
+                <label for="adresse">Adresse</label>
+                <input id="adresse" name="adresse" autocomplete="street-address" placeholder="Quartier, rue, n°">
+                <p class="msg">Indiquez votre adresse.</p>
+              </div>
+            </div>
+
+            <div class="recap"><span>Total à payer à la livraison<small id="total-detail"></small></span><b id="total"></b></div>
+            <button type="submit" class="btn btn-noir" id="btn-commander"><span class="btn-txt">Je commande · <span data-cta-prix></span></span></button>
+            <p class="sous-cta">Aucun paiement maintenant. Nous vous appelons pour confirmer, puis vous payez en espèces à la réception.</p>
+          </form>
+
+          <div class="assurances">
+            <div><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="13" rx="1"/><path d="M2 10h20"/></svg>Paiement<br>à la livraison</div>
+            <div><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>Livraison<br>24 à 72 h</div>
+            <div><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Échange<br>de taille</div>
+          </div>
+
+          <div class="accordeon">
+            <details open>
+              <summary>Détails du produit</summary>
+              <div class="contenu"><ul id="details-liste"></ul></div>
+            </details>
+            <details>
+              <summary>Livraison & paiement</summary>
+              <div class="contenu">Livraison partout au Maroc en 24 à 72 h. Après votre commande, nous vous appelons pour confirmer la taille et l'adresse. Vous payez en espèces au livreur, à la réception. La livraison est offerte dès 2 polos.</div>
+            </details>
+            <details>
+              <summary>Entretien</summary>
+              <div class="contenu">Lavage en machine à 30 °C, sur l'envers pour protéger les broderies. Ne pas utiliser de sèche-linge. Repassage doux sur l'envers, sans passer sur les broderies.</div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ LETTRE DE VENTE ============ -->
+    <section class="lettre">
+      <div class="lettre-corps">
+        <p class="eyebrow" style="text-align:center">Pourquoi ce polo existe</p>
+        <h2>Vous avez sûrement déjà acheté un polo qui vous a déçu.</h2>
+
+        <p class="grand">Il était beau en boutique. Puis, après quelques lavages, le col s'est mis à rouler, le tissu s'est ramolli, et il a fini au fond du placard.</p>
+
+        <p>Ce n'est pas votre faute. La plupart des polos du marché sont fabriqués en coton fin, autour de <strong>180 à 220 g/m²</strong>. C'est moins cher à produire, mais un tissu fin ne tient pas : il se déforme, il colle au corps et il perd son allure.</p>
+
+        <p>Et si vous voulez mieux, on vous propose une grande marque internationale <strong>entre 1 200 et 1 700 MAD</strong>, dont une bonne partie paie le logo et l'importation.</p>
+
+        <p>Nous voulions un polo qu'on prend plaisir à mettre <span class="souligne">chaque fois qu'on veut être bien habillé sans en faire trop</span>. Nous ne l'avons pas trouvé, alors nous l'avons fait.</p>
+
+        <h3 class="sous-titre-lettre">Voici le Polo Club.</h3>
+
+        <ul class="puces">
+          <li><strong>Un coton piqué de 320 g/m².</strong> C'est presque deux fois plus dense qu'un polo ordinaire. Vous le sentez dès que vous le prenez en main : il tombe droit et garde sa forme.</li>
+          <li><strong>Un col structuré qui reste en place,</strong> du matin jusqu'au soir, au lieu de s'affaisser au bout d'une heure.</li>
+          <li><strong>Des broderies, pas des impressions.</strong> Le lettrage DIWAN POLO CLUB et l'emblème sont brodés : ils ne craquellent pas et ne s'effacent pas au lavage comme un logo imprimé.</li>
+          <li><strong>Des manches longues aux poignets côtelés.</strong> Il remplace la chemise d'octobre à avril : plus chic qu'un sweat, plus confortable qu'une chemise.</li>
+          <li><strong>Une coupe Regular Fit.</strong> Elle ne serre pas le ventre, ne flotte pas sur les épaules et tombe bien sur toutes les morphologies.</li>
+          <li><strong>Un emblème qui raconte quelque chose.</strong> L'arche de nos médinas et les maillets croisés des clubs de polo : une pièce marocaine, assumée, à la hauteur des grandes maisons.</li>
+          <li><strong>Confectionné au Maroc,</strong> dans un atelier que nous connaissons, en petite série.</li>
+        </ul>
+
+        <p>Portez-le avec un pantalon beige et des baskets blanches, et vous êtes habillé pour un déjeuner, un rendez-vous ou un dîner. <strong>Sans réfléchir.</strong></p>
+
+        <h3 class="sous-titre-lettre">Pourquoi seulement <span data-serie></span> pièces par coloris ?</h3>
+        <p>Parce que nous avons choisi la qualité plutôt que le volume. Cette première série est limitée à <strong><span data-serie></span> pièces par coloris</strong>. Quand un coloris est épuisé, il ne revient pas avant la prochaine collection, et rien ne dit qu'il reviendra à l'identique.</p>
+
+        <h3 class="sous-titre-lettre">Vous ne prenez aucun risque.</h3>
+        <p>Vous ne payez rien en ligne. Vous commandez en 30 secondes, nous vous appelons pour confirmer, et <strong>vous ne payez qu'à la réception</strong>, en espèces, au livreur. Si la taille ne vous va pas, nous vous l'échangeons.</p>
+
+        <p>Et si vous hésitez entre les coloris, <strong>prenez les trois</strong> : un pour chaque occasion, 1 490 MAD au lieu de 1 770 MAD, livraison offerte.</p>
+
+        <div class="cta-lettre"><a href="#achat" class="btn btn-noir" data-vers-commande><span>Je choisis mon polo</span></a></div>
+
+        <p class="signature">Bienvenue au club.</p>
+        <p class="signature-nom">Le fondateur de DIWAN POLO CLUB</p>
+
+        <p class="ps"><b>P.S.</b> Chaque coloris est limité à <span data-serie></span> pièces. Si l'un d'eux vous plaît, ne tardez pas : quand il est épuisé, il ne revient pas dans cette collection.</p>
+        <p class="ps" style="border:0;margin-top:0;padding-top:0"><b>P.P.S.</b> Le pack de 3 coloris revient à moins de 500 MAD le polo, livraison comprise. C'est le prix d'un polo d'enseigne, pour une qualité qui n'a rien à voir.</p>
+      </div>
+    </section>
+
+    <!-- ============ COMPARATIF ============ -->
+    <section>
+      <div class="wrap">
+        <div class="titre-section revele">
+          <p class="eyebrow">Comparez</p>
+          <h2>Ce que vous payez vraiment.</h2>
+        </div>
+        <div class="revele" style="overflow-x:auto">
+          <table class="comparatif">
+            <thead><tr><th></th><th class="nous">DIWAN</th><th>Polo d'enseigne</th><th>Grande marque importée</th></tr></thead>
+            <tbody>
+              <tr><td>Épaisseur du coton</td><td class="nous">320 g/m²</td><td>180–200 g/m²</td><td>200–220 g/m²</td></tr>
+              <tr><td>Lettrage & emblème brodés</td><td class="nous"><span class="oui">✓</span></td><td><span class="non">Imprimé</span></td><td><span class="oui">✓</span></td></tr>
+              <tr><td>Confectionné au Maroc</td><td class="nous"><span class="oui">✓</span></td><td><span class="non">—</span></td><td><span class="non">—</span></td></tr>
+              <tr><td>Série limitée</td><td class="nous"><span class="oui">✓</span></td><td><span class="non">—</span></td><td><span class="non">—</span></td></tr>
+              <tr><td>Paiement à la livraison</td><td class="nous"><span class="oui">✓</span></td><td>Parfois</td><td>Rarement</td></tr>
+              <tr><td>Prix</td><td class="nous">590 MAD</td><td>250–450 MAD</td><td>1 200–1 700 MAD</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GARANTIE ============ -->
+    <section style="padding-top:0">
+      <div class="wrap">
+        <div class="garantie revele">
+          <div class="sceau">Payez<br>à la<br>réception</div>
+          <div>
+            <h3>Zéro risque, zéro avance.</h3>
+            <p>Vous ne payez qu'une fois le polo entre vos mains. Nous vous appelons avant l'envoi pour confirmer votre taille, et si elle ne convient pas, nous vous l'échangeons sous <span data-echange></span> jours.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ AVIS (affichés seulement quand il y a de vrais avis) ============ -->
+    <section id="avis" hidden style="padding-top:0">
+      <div class="wrap">
+        <div class="titre-section"><p class="eyebrow">Ils l'ont adopté</p><h2>Les membres du club</h2></div>
+        <div class="avis-grille" id="avis-grille"></div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section id="faq" style="padding-top:0">
+      <div class="wrap faq">
+        <div class="titre-section revele"><p class="eyebrow">Questions</p><h2>Vous vous demandez peut-être…</h2></div>
+        <div class="accordeon revele">
+          <details><summary>Quelle taille choisir ?</summary><div class="contenu">La coupe est Regular Fit : prenez votre taille habituelle. Entre deux tailles, prenez la plus grande pour un tombé plus décontracté. Le <button type="button" class="lien-inline" data-guide>guide des tailles</button> donne les mesures exactes, et nous vous appelons de toute façon pour confirmer avant l'envoi.</div></details>
+          <details><summary>Comment se passe le paiement ?</summary><div class="contenu">Vous ne payez rien sur le site. Vous réglez le livreur en espèces quand vous recevez votre colis.</div></details>
+          <details><summary>En combien de temps suis-je livré ?</summary><div class="contenu">Entre 24 et 72 h selon votre ville, partout au Maroc. Nous vous appelons après votre commande pour confirmer l'adresse.</div></details>
+          <details><summary>Et si la taille ne me va pas ?</summary><div class="contenu">Contactez-nous sur WhatsApp dans les <span data-echange></span> jours qui suivent la réception. Nous vous échangeons le polo contre une autre taille, à condition qu'il n'ait pas été porté ni lavé.</div></details>
+          <details><summary>Puis-je prendre des coloris différents dans un pack ?</summary><div class="contenu">Oui. Dans le pack de 2 ou de 3, vous choisissez le coloris et la taille de chaque polo séparément.</div></details>
+          <details><summary>Le polo est-il chaud ?</summary><div class="contenu">Il est épais et structuré, idéal de l'automne au printemps. Le coton respire, il reste donc agréable en intérieur.</div></details>
+          <details><summary>Comment l'entretenir ?</summary><div class="contenu">Lavage en machine à 30 °C, sur l'envers. Pas de sèche-linge. Repassage doux sur l'envers, sans passer sur les broderies.</div></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ APPEL FINAL ============ -->
+    <section class="appel">
+      <div class="wrap">
+        <p class="eyebrow">Collection N°1 · <span data-serie></span> pièces par coloris</p>
+        <h2>Votre place au club vous attend.</h2>
+        <p>Commandez en 30 secondes. Payez à la livraison.</p>
+        <a href="#achat" class="btn btn-clair" data-vers-commande><span>Commander maintenant</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pied">
+    <div class="wrap">
+      <div class="pied-bas"><span>© <span data-annee></span> DIWAN POLO CLUB</span><span>Confectionné au Maroc</span></div>
+    </div>
+  </footer>
+
+  <!-- Barre collante mobile -->
+  <div class="barre-collante">
+    <div class="info"><b>Le Polo Club</b><span id="barre-offre"></span> · <span data-cta-prix></span></div>
+    <a href="#achat" class="btn btn-noir" data-vers-commande><span>Commander</span></a>
+  </div>
+
+  <dialog id="dlg-tailles">
+    <div class="dialog-corps">
+      <button class="fermer" type="button" aria-label="Fermer">×</button>
+      <p class="eyebrow">Coupe Regular Fit</p>
+      <h3>Guide des tailles</h3>
+      <table class="tableau-tailles" id="tableau-tailles"></table>
+      <p style="font-size:13px;color:var(--gris);margin-top:16px">Mesures en centimètres, prises à plat. Entre deux tailles, prenez la plus grande.</p>
+    </div>
+  </dialog>
+
+  <a class="wa" href="#" target="_blank" rel="noopener" aria-label="Nous écrire sur WhatsApp">
+    <svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.7a10.7 10.7 0 0 1-5.5-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.7 10.7 0 1 1 16 26.7zm5.9-8c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg>
+  </a>
+
+  <script src="js/config.js?v=6"></script>
+  <script src="js/app.js?v=6"></script>
+</body>
+</html>
