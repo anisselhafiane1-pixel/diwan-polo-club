@@ -39,7 +39,6 @@
     holder.style.display = "contents";
     const img = new Image();
     img.alt = alt || `${S.marqueComplete} ${c.nom}`;
-    img.loading = "lazy";
     img.decoding = "async";
     img.onerror = () => { holder.innerHTML = poloSVG(c); };
     img.src = src;
