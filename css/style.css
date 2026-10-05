@@ -488,3 +488,7 @@ img.embleme { width: auto; height: 40px; stroke: none; }
 .case-club input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--bordeaux); flex: none; }
 .case-club b { font-weight: 500; }
 .club-merci { border: 1px solid var(--bordeaux); color: var(--bordeaux); padding: 16px; max-width: 460px; margin: 0 auto 24px !important; }
+
+/* Stock */
+.mini-tailles button:disabled { opacity: .35; text-decoration: line-through; cursor: not-allowed; background: transparent; }
+.ligne-article .num .reste { font-style: normal; color: var(--bordeaux); margin-left: 10px; letter-spacing: .06em; }

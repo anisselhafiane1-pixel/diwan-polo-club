@@ -10,8 +10,8 @@ window.STORE = {
   // Numéro WhatsApp au format international, sans + ni espaces (ex : 212612345678)
   whatsapp: "212708876151",
 
-  // URL du script Google Sheets (voir google-apps-script.gs). Vide = mode test (commandes gardées dans le navigateur).
-  leadsEndpoint: "",
+  // Base de données des commandes (clé publique : elle ne donne accès qu'à l'envoi d'une commande)
+  api: { url: "https://texwppriemmmtndapfta.supabase.co", cle: "sb_publishable_P2ipLt202wUcAw2OSHMplw_YGnHZQem" },
 
   // ID du pixel Meta (Facebook / Instagram). Vide = désactivé.
   metaPixelId: "",

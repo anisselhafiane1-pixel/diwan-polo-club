@@ -287,17 +287,27 @@
       majTotal();
     }
     const blocLignes = $("#lignes");
+    // Stock : une taille à 0 n'est plus commandable ; en dessous de 6, on affiche ce qu'il reste
+    let stockBas = [];
+    const reste = (coloris, taille) => stockBas.find((x) => x.coloris === coloris && x.taille === taille)?.reste;
+    const epuise = (coloris, taille) => reste(coloris, taille) === 0;
+    if (S.api) fetch(`${S.api.url}/rest/v1/rpc/diwan_stock_public`, { method: "POST", headers: { apikey: S.api.cle, Authorization: `Bearer ${S.api.cle}`, "Content-Type": "application/json" }, body: "{}" })
+      .then((r) => (r.ok ? r.json() : []))
+      .then((liste) => { stockBas = Array.isArray(liste) ? liste : []; lignes.forEach((l) => { if (epuise(l.coloris, l.taille)) l.taille = ""; }); rendreLignes(); })
+      .catch(() => {});
+
     function rendreLignes() {
       blocLignes.innerHTML = "";
       lignes.forEach((l, i) => {
         const div = document.createElement("div");
         div.className = "ligne-article";
+        const r = l.taille ? reste(l.coloris, l.taille) : undefined;
         div.innerHTML = `
-          <span class="num">${offre.qte > 1 ? "Polo " + (i + 1) : "Votre polo"}</span>
+          <span class="num">${offre.qte > 1 ? "Polo " + (i + 1) : "Votre polo"}${r > 0 ? `<em class="reste">Plus que ${r} en ${l.taille}</em>` : ""}</span>
           <div class="mini-coloris">${S.coloris.map((c) => `<button type="button" data-c="${c.id}" title="${c.nom}" aria-label="${c.nom}" class="${l.coloris === c.id ? "actif" : ""}" style="background:linear-gradient(135deg, ${c.principal} 50%, ${c.accent} 50%)"></button>`).join("")}</div>
-          <div class="mini-tailles">${S.tailles.map((t) => `<button type="button" data-t="${t}" class="${l.taille === t ? "actif" : ""}">${t}</button>`).join("")}</div>`;
-        $$("[data-c]", div).forEach((b) => (b.onclick = () => { l.coloris = b.dataset.c; rendreLignes(); }));
-        $$("[data-t]", div).forEach((b) => (b.onclick = () => { l.taille = b.dataset.t; if (i === 0) lignes.forEach((x) => !x.taille && (x.taille = b.dataset.t)); rendreLignes(); $("#err-taille").hidden = true; }));
+          <div class="mini-tailles">${S.tailles.map((t) => `<button type="button" data-t="${t}" class="${l.taille === t ? "actif" : ""}" ${epuise(l.coloris, t) ? 'disabled title="Épuisé"' : ""}>${t}</button>`).join("")}</div>`;
+        $$("[data-c]", div).forEach((b) => (b.onclick = () => { l.coloris = b.dataset.c; if (epuise(l.coloris, l.taille)) l.taille = ""; rendreLignes(); }));
+        $$("[data-t]", div).forEach((b) => (b.onclick = () => { l.taille = b.dataset.t; if (i === 0) lignes.forEach((x) => !x.taille && !epuise(x.coloris, b.dataset.t) && (x.taille = b.dataset.t)); rendreLignes(); $("#err-taille").hidden = true; }));
         blocLignes.appendChild(div);
       });
     }
@@ -331,19 +341,24 @@
         offre: offre.label,
         quantite: offre.qte,
         articles: lignes.map((l) => `${S.coloris.find((c) => c.id === l.coloris).court} / ${l.taille || "?"}`).join(" + "),
+        liste: lignes.map((l) => ({ coloris: l.coloris, taille: l.taille })),
         total: total(),
         club: form.club.checked ? "oui" : "non",
         source: Object.entries(store.get("diwan_utm", {})).map(([k, v]) => `${k}=${v}`).join("&"),
         page: location.href,
       };
     }
-    function envoyer(d) {
-      const tous = store.get("diwan_leads", []);
-      const i = tous.findIndex((x) => x.id === d.id);
-      i >= 0 ? (tous[i] = d) : tous.push(d);
-      store.set("diwan_leads", tous);
-      if (!S.leadsEndpoint) { console.info("[DIWAN] Lead (mode test) :", d); return Promise.resolve(); }
-      return fetch(S.leadsEndpoint, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(d) }).catch(() => {});
+    // Envoie la commande à la base. Renvoie true si elle est bien enregistrée.
+    async function envoyer(d) {
+      if (!S.api) { console.info("[DIWAN] Commande (mode test) :", d); return true; }
+      try {
+        const r = await fetch(`${S.api.url}/rest/v1/rpc/diwan_commander`, {
+          method: "POST",
+          headers: { apikey: S.api.cle, Authorization: `Bearer ${S.api.cle}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ p: { id: d.id, statut: d.statut, nom: d.nom, telephone: d.telephone, ville: d.ville, adresse: d.adresse, offre: d.offre, quantite: d.quantite, articles: d.liste, club: d.club === "oui", source: d.source } }),
+        });
+        return r.ok;
+      } catch { return false; }
     }
 
     // Lead partiel : dès qu'un numéro valide est saisi (relance des commandes abandonnées)
@@ -373,7 +388,16 @@
       btn.disabled = true;
       $(".btn-txt", btn).textContent = "Envoi en cours…";
       const d = donnees("nouvelle");
-      await envoyer(d);
+      if (!(await envoyer(d))) {
+        // La commande n'est pas partie : on propose WhatsApp plutôt que de la perdre
+        btn.disabled = false;
+        $(".btn-txt", btn).textContent = "Réessayer";
+        const msg = `Bonjour DIWAN, je souhaite commander : ${d.articles} — ${mad(d.total)}. ${d.nom}, ${d.ville}, ${d.adresse}. Tél : ${d.telephone}`;
+        const e = $("#err-envoi");
+        e.hidden = false;
+        $("a", e).href = `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
+        return;
+      }
       track("Lead", { value: d.total, currency: "MAD" });
       try { sessionStorage.setItem("diwan_derniere", JSON.stringify(d)); } catch {}
       location.href = "merci.html";
