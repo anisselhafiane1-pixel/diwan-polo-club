@@ -452,3 +452,9 @@ dialog::backdrop { background: rgba(13,12,10,.6); backdrop-filter: blur(4px); }
   .portes figure { flex: 0 0 76%; scroll-snap-align: center; }
   .portes figure.revele { opacity: 1; transform: none; }
 }
+
+/* Logo officiel */
+img.embleme { width: auto; height: 40px; stroke: none; }
+@media (max-width: 900px) { img.embleme { height: 34px; } }
+.pied .logo img.embleme { height: 44px; }
+.logo-manifeste { width: auto; height: clamp(110px, 14vw, 170px); margin: 0 auto 28px; }
