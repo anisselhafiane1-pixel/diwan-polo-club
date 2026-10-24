@@ -10,6 +10,24 @@
   };
   const page = document.body.dataset.page;
 
+  /* ---------- Tarif du jour : lancement ou prix normal ---------- */
+  const L = S.lancement;
+  const enLancement = !!L && new Date() <= new Date(L.fin + "T23:59:59");
+  const prixBase = L ? (enLancement ? L.prixLancement : L.prixNormal) : S.produit.prix;
+  const joursRestants = L ? Math.max(0, Math.ceil((new Date(L.fin + "T23:59:59") - new Date()) / 86400000)) : 0;
+  const dateFr = (iso) => new Date(iso + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
+  S.offres = [1, 2, 3].map((q) => {
+    const prix = prixBase * q - (S.remisePack?.[q] || 0);
+    const ancien = enLancement ? L.prixNormal * q : q > 1 ? prixBase * q : null;
+    return {
+      id: String(q), qte: q, prix, ancien,
+      label: q === 1 ? "1 polo" : q === 2 ? "2 polos" : "La collection · 3 polos",
+      badge: q === 3 ? "Meilleure offre" : q === 2 || enLancement ? "Livraison offerte" : null,
+      note: q === 1 ? (enLancement ? "Livraison offerte pendant le lancement" : `+ ${S.fraisLivraison} MAD de livraison`) : `Vous économisez ${ancien - prix} MAD + la livraison`,
+    };
+  });
+  const fraisDuJour = (q) => (q === 1 && !enLancement ? S.fraisLivraison : 0);
+
   /* ---------- Visuel provisoire : le polo dessiné aux couleurs du coloris ---------- */
   let uid = 0;
   function poloSVG(c) {
@@ -69,6 +87,7 @@
       "Paiement à la livraison",
       S.livraison,
       `Série limitée à ${S.serieParColoris} pièces par coloris`,
+      ...(enLancement ? [`Prix de lancement jusqu'au ${dateFr(L.fin)}`] : []),
       "Confectionné au Maroc",
       "Coton piqué 320 g/m²",
     ];
@@ -159,7 +178,7 @@
         </div>
         <div class="carte-info">
           <div><h3>${c.nom}</h3><small>${c.phrase}</small></div>
-          <span class="carte-prix">${mad(S.produit.prix)}</span>
+          <span class="carte-prix">${enLancement ? `<s>${mad(L.prixNormal)}</s> ` : ""}${mad(prixBase)}</span>
         </div>`;
       const v = $(".carte-visuel", a);
       v.appendChild(visuel(c.photos[0], c));
@@ -202,7 +221,13 @@
     track("ViewContent", { content_name: P.nom, value: P.prix, currency: "MAD" });
 
     // Textes dynamiques
-    $$("[data-prix]").forEach((el) => (el.textContent = mad(P.prix)));
+    $$("[data-prix]").forEach((el) => (el.textContent = mad(prixBase)));
+    if (enLancement) {
+      $$("[data-prix-normal]").forEach((el) => { el.textContent = mad(L.prixNormal); el.hidden = false; });
+      $("#lancement").hidden = false;
+      $("[data-lancement-fin]").textContent = dateFr(L.fin);
+      $("[data-lancement-jours]").textContent = joursRestants <= 1 ? "aujourd'hui" : joursRestants + " jours";
+    }
     $$("[data-serie]").forEach((el) => (el.textContent = S.serieParColoris));
     $$("[data-echange]").forEach((el) => (el.textContent = S.echangeJours));
     $("#details-liste").innerHTML = P.details.map((d) => `<li>${d}</li>`).join("");
@@ -312,10 +337,10 @@
       });
     }
 
-    function total() { return offre.prix + (offre.qte === 1 ? S.fraisLivraison : 0); }
+    function total() { return offre.prix + fraisDuJour(offre.qte); }
     function majTotal() {
       $("#total").textContent = mad(total());
-      $("#total-detail").textContent = offre.qte === 1 ? `dont ${S.fraisLivraison} MAD de livraison` : "Livraison offerte";
+      $("#total-detail").textContent = fraisDuJour(offre.qte) ? `dont ${S.fraisLivraison} MAD de livraison` : "Livraison offerte";
       $$("[data-cta-prix]").forEach((el) => (el.textContent = mad(total())));
       $$("[data-cta-verbe]").forEach((el) => (el.textContent = offre.qte > 1 ? "Recevoir mes polos" : "Recevoir mon polo"));
       $("#barre-offre").textContent = offre.label;
@@ -364,7 +389,6 @@
 
     // Lead partiel : dès qu'un numéro valide est saisi (relance des commandes abandonnées)
     let partielEnvoye = false, commence = false;
-    form.addEventListener("focusin", () => { if (!commence) { commence = true; track("InitiateCheckout", { value: total(), currency: "MAD" }); } });
     form.telephone.addEventListener("blur", () => {
       if (!partielEnvoye && telOk(form.telephone.value)) { partielEnvoye = true; envoyer(donnees("partiel")); }
     });
@@ -383,6 +407,7 @@
       if (!ok) {
         const premier = !taillesOk ? $("#lignes") : $(".champ.erreur");
         premier && premier.scrollIntoView({ behavior: "smooth", block: "center" });
+        if (premier && premier.querySelector("input, select")) premier.querySelector("input, select").focus();
         return;
       }
       const btn = $("#btn-commander");
@@ -420,11 +445,20 @@
     }
 
     // Boutons « Commander » → remontent au formulaire
-    $$("[data-vers-commande]").forEach((b) => (b.onclick = (e) => { e.preventDefault(); $("#achat").scrollIntoView({ behavior: "smooth" }); }));
+    // La commande se passe dans une fenêtre : offre et tailles déjà choisies, il reste les coordonnées
+    const dlgC = $("#dlg-commande");
+    $$("[data-vers-commande]").forEach((b) => (b.onclick = (e) => {
+      e.preventDefault();
+      dlgC.showModal();
+      dlgC.scrollTop = 0;
+      track("InitiateCheckout", { value: total(), currency: "MAD" });
+    }));
+    $(".fermer", dlgC).onclick = () => dlgC.close();
+    dlgC.addEventListener("click", (e) => e.target === dlgC && dlgC.close());
 
-    // Barre collante mobile : visible quand le formulaire n'est pas à l'écran
+    // Barre collante mobile : visible quand le bloc d'achat n'est pas à l'écran
     const barre = $(".barre-collante");
-    new IntersectionObserver(([e]) => barre.classList.toggle("visible", !e.isIntersecting && scrollY > 400)).observe(form);
+    new IntersectionObserver(([e]) => barre.classList.toggle("visible", !e.isIntersecting && scrollY > 400)).observe($("#offres"));
 
     rendreColoris();
     rendreGalerie();

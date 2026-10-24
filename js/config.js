@@ -80,13 +80,11 @@ window.STORE = {
     },
   ],
 
-  // Offres : le pack 3 coloris est l'offre phare
-  offres: [
-    { id: "1", label: "1 polo", qte: 1, prix: 399, ancien: null, badge: null, note: "+ 35 MAD de livraison" },
-    { id: "2", label: "2 polos", qte: 2, prix: 748, ancien: 798, badge: "Livraison offerte", note: "Vous économisez 50 MAD + la livraison" },
-    { id: "3", label: "La collection · 3 polos", qte: 3, prix: 1097, ancien: 1197, badge: "Meilleure offre", note: "Vous économisez 100 MAD + la livraison" },
-  ],
-  fraisLivraison: 35, // appliqué uniquement à l'offre 1 polo
+  // Prix. Pendant le lancement (jusqu'à la date incluse) : prix de lancement et livraison offerte même pour 1 polo.
+  // Après cette date, le site passe TOUT SEUL au prix normal : le prix barré n'est affiché que parce qu'il deviendra réel.
+  lancement: { fin: "2026-11-15", prixLancement: 399, prixNormal: 649 },
+  remisePack: { 2: 50, 3: 100 }, // remise sur le total pour 2 et 3 polos
+  fraisLivraison: 35, // 1 polo seulement, hors période de lancement
 
   tailles: ["S", "M", "L", "XL", "XXL"],
 

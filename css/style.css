@@ -503,3 +503,20 @@ img.embleme { width: auto; height: 40px; stroke: none; }
 .etapes li::marker { color: var(--or); font-weight: 500; }
 .etapes b { font-weight: 500; color: var(--texte); }
 .btn-noir .btn-txt { white-space: nowrap; font-size: 12px; letter-spacing: .18em; }
+
+/* Prix de lancement */
+.ligne-prix s { font-size: 17px; color: var(--gris); }
+.lancement { display: inline-block; font-size: 12px; letter-spacing: .04em; background: var(--bordeaux); color: var(--creme); padding: 8px 12px; margin: 2px 0 14px; }
+.lancement b { font-weight: 500; color: var(--or-clair); }
+.carte-prix s { color: var(--gris); font-size: 13px; }
+
+/* Fenêtre de commande */
+#dlg-commande { max-width: min(560px, calc(100% - 24px)); max-height: calc(100dvh - 24px); overflow: auto; }
+.dialog-commande { padding: 28px 22px 22px; }
+.dialog-commande .formulaire { border: 0; padding: 0; margin: 0; background: transparent; }
+.titre-commande { font-size: 32px; margin: 4px 0 18px; }
+#ouvrir-commande { margin-top: 8px; }
+@media (max-width: 900px) {
+  #dlg-commande { max-width: 100%; width: 100%; height: 100dvh; max-height: 100dvh; margin: 0; }
+  .dialog-commande { padding: 22px 16px calc(env(safe-area-inset-bottom) + 24px); }
+}
