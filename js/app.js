@@ -87,7 +87,7 @@
       "Paiement à la livraison",
       S.livraison,
       `Série limitée à ${S.serieParColoris} pièces par coloris`,
-      ...(enLancement ? [`Offre limitée : −${Math.round((1 - L.prixLancement / L.prixNormal) * 100)} % sur tous nos polos jusqu'au ${dateFr(L.fin)}`] : []),
+      ...(enLancement ? [`Offre limitée : −${Math.round((1 - L.prixLancement / L.prixNormal) * 100)} % sur tous nos polos`] : []),
       "Confectionné au Maroc",
       "Coton piqué 320 g/m²",
     ];
@@ -225,9 +225,7 @@
     if (enLancement) {
       $$("[data-prix-normal]").forEach((el) => { el.textContent = mad(L.prixNormal); el.hidden = false; });
       $("#lancement").hidden = false;
-      $("[data-lancement-fin]").textContent = dateFr(L.fin);
       $("[data-lancement-pct]").textContent = "−" + Math.round((1 - L.prixLancement / L.prixNormal) * 100) + " %";
-      $("[data-lancement-jours]").textContent = joursRestants <= 1 ? "aujourd'hui" : joursRestants + " jours";
     }
     $$("[data-serie]").forEach((el) => (el.textContent = S.serieParColoris));
     $$("[data-echange]").forEach((el) => (el.textContent = S.echangeJours));

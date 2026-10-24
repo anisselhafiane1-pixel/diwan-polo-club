@@ -538,3 +538,9 @@ img.embleme { width: auto; height: 40px; stroke: none; }
 .lancement { font-size: 13px; }
 .lancement b:first-child { font-size: 15px; }
 .carte-prix .pct { display: inline-block; font-style: normal; font-size: 11px; letter-spacing: .08em; background: var(--bordeaux); color: var(--creme); padding: 3px 7px; margin-left: 8px; vertical-align: middle; }
+
+/* Prix sur une ligne, note de série lisible */
+.ligne-prix { flex-wrap: wrap; row-gap: 4px; }
+.ligne-prix .prix, .ligne-prix s { white-space: nowrap; }
+.note-serie { display: block; }
+.note-serie .point-vivant { display: inline-block; vertical-align: middle; margin-right: 8px; }
