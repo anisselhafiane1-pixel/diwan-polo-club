@@ -581,3 +581,16 @@ body[data-page="produit"] .wa { bottom: 96px; }
 .ligne-article.manque .mini-tailles button { border-color: #c0564a; }
 .ligne-article.manque .num span { color: #a33a2a; }
 #err-taille { margin: 4px 0 16px; font-weight: 500; }
+
+/* Lettre : marges latérales comme le reste du site */
+.lettre-corps { width: min(720px, 100% - 32px); }
+
+/* Barre d'achat sur petit écran : le prix ne doit jamais être coupé */
+@media (max-width: 600px) {
+  body[data-page="produit"] .barre-collante { gap: 10px; padding-left: 14px; padding-right: 14px; }
+  .barre-collante .info { flex: 1 1 auto; }
+  .barre-collante .info b { font-size: 16px; }
+  .barre-collante .info span { font-size: 12px; }
+  .barre-collante .barre-prix strong { font-size: 14px; }
+  .barre-collante .btn { flex: 0 0 auto; padding: 15px 14px; font-size: 11px; letter-spacing: .1em; }
+}
