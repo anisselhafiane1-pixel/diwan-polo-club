@@ -534,3 +534,7 @@ img.embleme { width: auto; height: 40px; stroke: none; }
   .heros video, .heros-diapo { height: 46%; }
   .heros::after { background: linear-gradient(180deg, rgba(13,12,10,.5) 0%, rgba(13,12,10,0) 16%, rgba(13,12,10,0) 34%, var(--noir) 46%); }
 }
+
+.lancement { font-size: 13px; }
+.lancement b:first-child { font-size: 15px; }
+.carte-prix .pct { display: inline-block; font-style: normal; font-size: 11px; letter-spacing: .08em; background: var(--bordeaux); color: var(--creme); padding: 3px 7px; margin-left: 8px; vertical-align: middle; }

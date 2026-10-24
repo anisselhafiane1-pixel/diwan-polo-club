@@ -87,7 +87,7 @@
       "Paiement à la livraison",
       S.livraison,
       `Série limitée à ${S.serieParColoris} pièces par coloris`,
-      ...(enLancement ? [`Prix de lancement jusqu'au ${dateFr(L.fin)}`] : []),
+      ...(enLancement ? [`Lancement : −${Math.round((1 - L.prixLancement / L.prixNormal) * 100)} % jusqu'au ${dateFr(L.fin)}`] : []),
       "Confectionné au Maroc",
       "Coton piqué 320 g/m²",
     ];
@@ -178,7 +178,7 @@
         </div>
         <div class="carte-info">
           <div><h3>${c.nom}</h3><small>${c.phrase}</small></div>
-          <span class="carte-prix">${enLancement ? `<s>${mad(L.prixNormal)}</s> ` : ""}${mad(prixBase)}</span>
+          <span class="carte-prix">${enLancement ? `<s>${mad(L.prixNormal)}</s> ` : ""}${mad(prixBase)}${enLancement ? `<em class="pct">−${Math.round((1 - L.prixLancement / L.prixNormal) * 100)} %</em>` : ""}</span>
         </div>`;
       const v = $(".carte-visuel", a);
       v.appendChild(visuel(c.photos[0], c));
@@ -226,6 +226,7 @@
       $$("[data-prix-normal]").forEach((el) => { el.textContent = mad(L.prixNormal); el.hidden = false; });
       $("#lancement").hidden = false;
       $("[data-lancement-fin]").textContent = dateFr(L.fin);
+      $("[data-lancement-pct]").textContent = "−" + Math.round((1 - L.prixLancement / L.prixNormal) * 100) + " %";
       $("[data-lancement-jours]").textContent = joursRestants <= 1 ? "aujourd'hui" : joursRestants + " jours";
     }
     $$("[data-serie]").forEach((el) => (el.textContent = S.serieParColoris));
