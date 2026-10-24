@@ -544,3 +544,26 @@ img.embleme { width: auto; height: 40px; stroke: none; }
 .ligne-prix .prix, .ligne-prix s { white-space: nowrap; }
 .note-serie { display: block; }
 .note-serie .point-vivant { display: inline-block; vertical-align: middle; margin-right: 8px; }
+
+/* Barre d'achat toujours visible (téléphone et ordinateur) */
+body[data-page="produit"] { padding-bottom: 84px; }
+body[data-page="produit"] .barre-collante { display: flex; padding: 12px max(16px, calc((100% - 1240px) / 2)); padding-bottom: calc(12px + env(safe-area-inset-bottom)); box-shadow: 0 -8px 30px rgba(13,12,10,.08); }
+.barre-collante .info s { font-family: var(--sans); font-size: 13px; color: var(--gris); margin-left: 6px; }
+.barre-collante .btn span { white-space: nowrap; }
+body[data-page="produit"] .wa { bottom: 96px; }
+@media (min-width: 901px) {
+  .barre-collante .info { font-size: 14px; }
+  .barre-collante .info b { display: inline; margin-right: 12px; font-size: 22px; }
+  .barre-collante .btn { padding: 18px 40px; }
+}
+@media (max-width: 380px) {
+  .barre-collante .btn { padding: 15px 14px; font-size: 11px; letter-spacing: .14em; }
+}
+
+.barre-collante .info { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.barre-collante .info span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.barre-collante .barre-prix s { font-size: 12px; color: var(--gris); margin: 0; }
+.barre-collante .barre-prix strong { font-weight: 500; color: var(--texte); }
+@media (min-width: 901px) {
+  .barre-collante .info { flex-direction: row; align-items: baseline; gap: 14px; }
+}

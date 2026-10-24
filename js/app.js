@@ -340,7 +340,8 @@
       $("#total").textContent = mad(total());
       $("#total-detail").textContent = fraisDuJour(offre.qte) ? `dont ${S.fraisLivraison} MAD de livraison` : "Livraison offerte";
       $$("[data-cta-prix]").forEach((el) => (el.textContent = mad(total())));
-      $$("[data-cta-verbe]").forEach((el) => (el.textContent = offre.qte > 1 ? "Recevoir mes polos" : "Recevoir mon polo"));
+      $$("[data-cta-verbe]").forEach((el) => (el.textContent = "Commander maintenant"));
+      $$("[data-prix-barre]").forEach((el) => (el.textContent = offre.ancien ? mad(offre.ancien) : ""));
       $("#barre-offre").textContent = offre.label;
     }
 
@@ -454,9 +455,8 @@
     $(".fermer", dlgC).onclick = () => dlgC.close();
     dlgC.addEventListener("click", (e) => e.target === dlgC && dlgC.close());
 
-    // Barre collante mobile : visible quand le bloc d'achat n'est pas à l'écran
-    const barre = $(".barre-collante");
-    new IntersectionObserver(([e]) => barre.classList.toggle("visible", !e.isIntersecting && scrollY > 400)).observe($("#offres"));
+    // Barre d'achat : toujours en bas de l'écran, sur téléphone comme sur ordinateur
+    $(".barre-collante").classList.add("visible");
 
     rendreColoris();
     rendreGalerie();
