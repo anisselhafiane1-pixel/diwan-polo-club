@@ -12,9 +12,8 @@
 
   /* ---------- Tarif du jour : lancement ou prix normal ---------- */
   const L = S.lancement;
-  const enLancement = !!L && new Date() <= new Date(L.fin + "T23:59:59");
+  const enLancement = !!L && L.active === true;
   const prixBase = L ? (enLancement ? L.prixLancement : L.prixNormal) : S.produit.prix;
-  const joursRestants = L ? Math.max(0, Math.ceil((new Date(L.fin + "T23:59:59") - new Date()) / 86400000)) : 0;
   const dateFr = (iso) => new Date(iso + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
   S.offres = [1, 2, 3].map((q) => {
     const prix = prixBase * q - (S.remisePack?.[q] || 0);
