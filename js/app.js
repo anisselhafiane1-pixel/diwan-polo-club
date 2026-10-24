@@ -20,7 +20,7 @@
     const ancien = enLancement ? L.prixNormal * q : q > 1 ? prixBase * q : null;
     return {
       id: String(q), qte: q, prix, ancien,
-      label: q === 1 ? "1 polo" : q === 2 ? "2 polos" : "La collection · 3 polos",
+      label: q === 1 ? "1 polo" : q === 2 ? "2 polos" : "3 polos",
       badge: q === 3 ? "Meilleure offre" : q === 2 || enLancement ? "Livraison offerte" : null,
       note: q === 1 ? (enLancement ? "Livraison offerte" : `+ ${S.fraisLivraison} MAD de livraison`) : `Vous économisez ${ancien - prix} MAD + la livraison`,
     };
@@ -87,7 +87,7 @@
     const msgs = [
       "Paiement à la livraison",
       S.livraison,
-      `Série limitée à ${S.serieParColoris} pièces par coloris`,
+      "Série limitée · quantités limitées",
       ...(enLancement ? [`Offre limitée : −${Math.round((1 - L.prixLancement / L.prixNormal) * 100)} % sur tous nos polos`] : []),
       "Confectionné au Maroc",
       "100 % coton",
@@ -174,7 +174,7 @@
       a.href = `produit.html?coloris=${c.id}`;
       a.innerHTML = `
         <div class="carte-visuel">
-          <span class="carte-tag">${S.serieParColoris} pièces</span>
+          <span class="carte-tag">Quantités limitées</span>
           <span class="carte-voir">Découvrir</span>
         </div>
         <div class="carte-info">
