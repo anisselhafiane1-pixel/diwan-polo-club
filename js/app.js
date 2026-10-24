@@ -23,7 +23,7 @@
       id: String(q), qte: q, prix, ancien,
       label: q === 1 ? "1 polo" : q === 2 ? "2 polos" : "La collection · 3 polos",
       badge: q === 3 ? "Meilleure offre" : q === 2 || enLancement ? "Livraison offerte" : null,
-      note: q === 1 ? (enLancement ? "Livraison offerte pendant le lancement" : `+ ${S.fraisLivraison} MAD de livraison`) : `Vous économisez ${ancien - prix} MAD + la livraison`,
+      note: q === 1 ? (enLancement ? "Livraison offerte" : `+ ${S.fraisLivraison} MAD de livraison`) : `Vous économisez ${ancien - prix} MAD + la livraison`,
     };
   });
   const fraisDuJour = (q) => (q === 1 && !enLancement ? S.fraisLivraison : 0);
@@ -87,7 +87,7 @@
       "Paiement à la livraison",
       S.livraison,
       `Série limitée à ${S.serieParColoris} pièces par coloris`,
-      ...(enLancement ? [`Lancement : −${Math.round((1 - L.prixLancement / L.prixNormal) * 100)} % jusqu'au ${dateFr(L.fin)}`] : []),
+      ...(enLancement ? [`Offre limitée : −${Math.round((1 - L.prixLancement / L.prixNormal) * 100)} % sur tous nos polos jusqu'au ${dateFr(L.fin)}`] : []),
       "Confectionné au Maroc",
       "Coton piqué 320 g/m²",
     ];
