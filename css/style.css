@@ -594,3 +594,12 @@ body[data-page="produit"] .wa { bottom: 96px; }
   .barre-collante .barre-prix strong { font-size: 14px; }
   .barre-collante .btn { flex: 0 0 auto; padding: 15px 14px; font-size: 11px; letter-spacing: .1em; }
 }
+
+/* Héros sur ordinateur : titre à taille raisonnable, lisible sur la vidéo */
+@media (min-width: 901px) {
+  .heros h1 { font-size: clamp(40px, 4.4vw, 68px); max-width: 15ch; margin: 14px 0 20px; }
+  .heros::after { background:
+    linear-gradient(90deg, rgba(13,12,10,.78) 0%, rgba(13,12,10,.45) 38%, rgba(13,12,10,0) 62%),
+    linear-gradient(180deg, rgba(13,12,10,.45) 0%, rgba(13,12,10,0) 22%, rgba(13,12,10,0) 70%, rgba(13,12,10,.6) 100%); }
+  .heros p.sous { max-width: 40ch; }
+}

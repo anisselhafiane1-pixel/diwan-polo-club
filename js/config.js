@@ -30,7 +30,7 @@ window.STORE = {
   produit: {
     slug: "polo-club-manches-longues",
     nom: "Le Polo Club",
-    sousTitre: "Polo manches longues · Coton piqué 320 g/m²",
+    sousTitre: "Polo manches longues · 100 % coton",
     prix: 399,
     matiere: "100 % coton piqué",
     grammage: "320 g/m²",

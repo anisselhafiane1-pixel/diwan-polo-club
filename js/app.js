@@ -90,7 +90,7 @@
       `Série limitée à ${S.serieParColoris} pièces par coloris`,
       ...(enLancement ? [`Offre limitée : −${Math.round((1 - L.prixLancement / L.prixNormal) * 100)} % sur tous nos polos`] : []),
       "Confectionné au Maroc",
-      "Coton piqué 320 g/m²",
+      "100 % coton",
     ];
     annonce.innerHTML = [...msgs, ...msgs].map((m) => `<span>${m}</span>`).join("");
   }
