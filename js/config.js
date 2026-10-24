@@ -82,7 +82,7 @@ window.STORE = {
 
   // Prix. Pendant le lancement (jusqu'à la date incluse) : prix de lancement et livraison offerte même pour 1 polo.
   // Après cette date, le site passe TOUT SEUL au prix normal : le prix barré n'est affiché que parce qu'il deviendra réel.
-  lancement: { fin: "2026-11-15", prixLancement: 399, prixNormal: 649 },
+  lancement: { fin: "2026-11-15", prixLancement: 399, prixNormal: 665 },
   remisePack: { 2: 50, 3: 100 }, // remise sur le total pour 2 et 3 polos
   fraisLivraison: 35, // 1 polo seulement, hors période de lancement
 
