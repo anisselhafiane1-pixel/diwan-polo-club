@@ -31,7 +31,7 @@ window.STORE = {
     slug: "polo-club-manches-longues",
     nom: "Le Polo Club",
     sousTitre: "Polo manches longues · Coton piqué 320 g/m²",
-    prix: 590,
+    prix: 399,
     matiere: "100 % coton piqué",
     grammage: "320 g/m²",
     coupe: "Regular Fit",
@@ -82,9 +82,9 @@ window.STORE = {
 
   // Offres : le pack 3 coloris est l'offre phare
   offres: [
-    { id: "1", label: "1 polo", qte: 1, prix: 590, ancien: null, badge: null, note: "+ 35 MAD de livraison" },
-    { id: "2", label: "2 polos", qte: 2, prix: 1090, ancien: 1180, badge: "Livraison offerte", note: "Vous économisez 90 MAD + la livraison" },
-    { id: "3", label: "La collection · 3 polos", qte: 3, prix: 1490, ancien: 1770, badge: "Meilleure offre", note: "Vous économisez 280 MAD + la livraison" },
+    { id: "1", label: "1 polo", qte: 1, prix: 399, ancien: null, badge: null, note: "+ 35 MAD de livraison" },
+    { id: "2", label: "2 polos", qte: 2, prix: 748, ancien: 798, badge: "Livraison offerte", note: "Vous économisez 50 MAD + la livraison" },
+    { id: "3", label: "La collection · 3 polos", qte: 3, prix: 1097, ancien: 1197, badge: "Meilleure offre", note: "Vous économisez 100 MAD + la livraison" },
   ],
   fraisLivraison: 35, // appliqué uniquement à l'offre 1 polo
 
