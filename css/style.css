@@ -567,3 +567,12 @@ body[data-page="produit"] .wa { bottom: 96px; }
 @media (min-width: 901px) {
   .barre-collante .info { flex-direction: row; align-items: baseline; gap: 14px; }
 }
+
+/* Pastilles : anneau doré bien visible, y compris sur le noir */
+.couleurs button, .mini-coloris button { border: 1px solid rgba(13,12,10,.18); outline: 2px solid transparent; outline-offset: 3px; transition: outline-color .2s, transform .2s; }
+.couleurs button.actif, .mini-coloris button.actif { outline-color: var(--or); transform: scale(1.06); box-shadow: 0 0 0 1px var(--creme) inset; }
+/* Lignes du pack */
+.ligne-article .num { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.ligne-article .num b { font-weight: 500; color: var(--texte); letter-spacing: .12em; }
+.ligne-article .retirer { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--gris); text-decoration: underline; text-underline-offset: 3px; padding: 4px 0; }
+.ligne-article .retirer:hover { color: #a33a2a; }

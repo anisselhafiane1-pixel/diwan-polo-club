@@ -71,9 +71,9 @@ window.STORE = {
     },
     {
       id: "marine",
-      nom: "Marine & Beige",
-      court: "Marine",
-      principal: "#1d2f6b",
+      nom: "Indigo & Beige",
+      court: "Indigo",
+      principal: "#2a2f6e",
       accent: "#e8dcc4",
       photos: ["assets/marine-studio.jpg", "assets/marine-dressing.jpg"],
       phrase: "Le classique des clubs. Il va avec tout ce que vous avez déjà.",

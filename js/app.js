@@ -63,6 +63,8 @@
     return holder;
   }
   window.DIWAN_visuel = visuel;
+  // Pastille de coloris : 80 % couleur du polo, 20 % beige (comme le polo lui-même)
+  const pastille = (c) => `linear-gradient(135deg, ${c.principal} 80%, ${c.accent} 80%)`;
 
   /* ---------- Suivi : UTM + pixel Meta ---------- */
   (function utm() {
@@ -264,7 +266,7 @@
         b.type = "button";
         b.title = c.nom;
         b.setAttribute("aria-label", c.nom);
-        b.style.background = `linear-gradient(135deg, ${c.principal} 50%, ${c.accent} 50%)`;
+        b.style.background = pastille(c);
         if (c === coloris) b.classList.add("actif");
         b.onclick = () => {
           coloris = c;
@@ -298,14 +300,22 @@
     }
 
     // Une ligne coloris + taille par polo du pack
+    // Une ligne coloris + taille par polo. Quand le nombre de polos change,
+    // chaque polo reçoit automatiquement un coloris différent (tailles conservées).
     function ajusterLignes() {
       const ordre = [coloris.id, ...S.coloris.map((c) => c.id).filter((id) => id !== coloris.id)];
-      while (lignes.length < offre.qte) {
-        const deja = lignes.map((l) => l.coloris);
-        const libre = ordre.find((id) => !deja.includes(id)) || coloris.id;
-        lignes.push({ coloris: libre, taille: lignes[0]?.taille || "" });
-      }
-      lignes = lignes.slice(0, offre.qte);
+      const tailles = lignes.map((l) => l.taille);
+      lignes = Array.from({ length: offre.qte }, (_, i) => ({ coloris: ordre[i % ordre.length], taille: tailles[i] ?? tailles[0] ?? "" }));
+      lignes.forEach((l) => { if (epuise(l.coloris, l.taille)) l.taille = ""; });
+      rendreLignes();
+      majTotal();
+    }
+    // Retirer un polo du pack : l'offre passe automatiquement à la quantité inférieure
+    function retirerPolo(i) {
+      if (lignes.length <= 1) return;
+      lignes.splice(i, 1);
+      offre = S.offres.find((o) => o.qte === lignes.length);
+      rendreOffres();
       rendreLignes();
       majTotal();
     }
@@ -326,10 +336,12 @@
         div.className = "ligne-article";
         const r = l.taille ? reste(l.coloris, l.taille) : undefined;
         div.innerHTML = `
-          <span class="num">${offre.qte > 1 ? "Polo " + (i + 1) : "Votre polo"}${r > 0 ? `<em class="reste">Plus que ${r} en ${l.taille}</em>` : ""}</span>
-          <div class="mini-coloris">${S.coloris.map((c) => `<button type="button" data-c="${c.id}" title="${c.nom}" aria-label="${c.nom}" class="${l.coloris === c.id ? "actif" : ""}" style="background:linear-gradient(135deg, ${c.principal} 50%, ${c.accent} 50%)"></button>`).join("")}</div>
+          <div class="num"><span>${offre.qte > 1 ? "Polo " + (i + 1) : "Votre polo"} · <b>${S.coloris.find((c) => c.id === l.coloris).court}</b>${l.taille ? " · " + l.taille : ""}${r > 0 ? `<em class="reste">Plus que ${r}</em>` : ""}</span>${lignes.length > 1 ? `<button type="button" class="retirer" data-retirer aria-label="Retirer le polo ${i + 1}">Retirer</button>` : ""}</div>
+          <div class="mini-coloris">${S.coloris.map((c) => `<button type="button" data-c="${c.id}" title="${c.nom}" aria-label="${c.nom}" class="${l.coloris === c.id ? "actif" : ""}" style="background:${pastille(c)}"></button>`).join("")}</div>
           <div class="mini-tailles">${S.tailles.map((t) => `<button type="button" data-t="${t}" class="${l.taille === t ? "actif" : ""}" ${epuise(l.coloris, t) ? 'disabled title="Épuisé"' : ""}>${t}</button>`).join("")}</div>`;
         $$("[data-c]", div).forEach((b) => (b.onclick = () => { l.coloris = b.dataset.c; if (epuise(l.coloris, l.taille)) l.taille = ""; rendreLignes(); }));
+        const r2 = $("[data-retirer]", div);
+        if (r2) r2.onclick = () => retirerPolo(i);
         $$("[data-t]", div).forEach((b) => (b.onclick = () => { l.taille = b.dataset.t; if (i === 0) lignes.forEach((x) => !x.taille && !epuise(x.coloris, b.dataset.t) && (x.taille = b.dataset.t)); rendreLignes(); $("#err-taille").hidden = true; }));
         blocLignes.appendChild(div);
       });
@@ -346,7 +358,6 @@
     }
 
     // Villes
-    $("#ville").innerHTML = `<option value="">Choisir votre ville</option>` + S.villes.map((v) => `<option>${v}</option>`).join("");
 
     // Formulaire & leads
     const form = $("#commande");
@@ -361,7 +372,7 @@
         statut,
         nom: form.nom.value.trim(),
         telephone: telNorm(form.telephone.value),
-        ville: form.ville.value,
+        ville: form.ville.value.trim(),
         adresse: form.adresse.value.trim(),
         offre: offre.label,
         quantite: offre.qte,
@@ -398,7 +409,7 @@
       const erreur = (name, cond) => { const c = form[name].closest(".champ"); c.classList.toggle("erreur", !cond); if (!cond) ok = false; };
       erreur("nom", form.nom.value.trim().length >= 3);
       erreur("telephone", telOk(form.telephone.value));
-      erreur("ville", !!form.ville.value);
+      erreur("ville", form.ville.value.trim().length >= 2);
       erreur("adresse", form.adresse.value.trim().length >= 5);
       const taillesOk = lignes.every((l) => l.taille);
       $("#err-taille").hidden = taillesOk;
