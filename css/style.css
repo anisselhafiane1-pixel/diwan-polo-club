@@ -576,3 +576,8 @@ body[data-page="produit"] .wa { bottom: 96px; }
 .ligne-article .num b { font-weight: 500; color: var(--texte); letter-spacing: .12em; }
 .ligne-article .retirer { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--gris); text-decoration: underline; text-underline-offset: 3px; padding: 4px 0; }
 .ligne-article .retirer:hover { color: #a33a2a; }
+
+/* Polo sans taille : signalé en rouge */
+.ligne-article.manque .mini-tailles button { border-color: #c0564a; }
+.ligne-article.manque .num span { color: #a33a2a; }
+#err-taille { margin: 4px 0 16px; font-weight: 500; }

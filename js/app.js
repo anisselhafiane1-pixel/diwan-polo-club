@@ -333,7 +333,7 @@
       blocLignes.innerHTML = "";
       lignes.forEach((l, i) => {
         const div = document.createElement("div");
-        div.className = "ligne-article";
+        div.className = "ligne-article" + (!l.taille && !$("#err-taille").hidden ? " manque" : "");
         const r = l.taille ? reste(l.coloris, l.taille) : undefined;
         div.innerHTML = `
           <div class="num"><span>${offre.qte > 1 ? "Polo " + (i + 1) : "Votre polo"} · <b>${S.coloris.find((c) => c.id === l.coloris).court}</b>${l.taille ? " · " + l.taille : ""}${r > 0 ? `<em class="reste">Plus que ${r}</em>` : ""}</span>${lignes.length > 1 ? `<button type="button" class="retirer" data-retirer aria-label="Retirer le polo ${i + 1}">Retirer</button>` : ""}</div>
@@ -342,7 +342,7 @@
         $$("[data-c]", div).forEach((b) => (b.onclick = () => { l.coloris = b.dataset.c; if (epuise(l.coloris, l.taille)) l.taille = ""; rendreLignes(); }));
         const r2 = $("[data-retirer]", div);
         if (r2) r2.onclick = () => retirerPolo(i);
-        $$("[data-t]", div).forEach((b) => (b.onclick = () => { l.taille = b.dataset.t; if (i === 0) lignes.forEach((x) => !x.taille && !epuise(x.coloris, b.dataset.t) && (x.taille = b.dataset.t)); rendreLignes(); $("#err-taille").hidden = true; }));
+        $$("[data-t]", div).forEach((b) => (b.onclick = () => { l.taille = b.dataset.t; if (i === 0) lignes.forEach((x) => !x.taille && !epuise(x.coloris, b.dataset.t) && (x.taille = b.dataset.t)); rendreLignes(); if (lignes.every((x) => x.taille)) $("#err-taille").hidden = true; }));
         blocLignes.appendChild(div);
       });
     }
@@ -363,6 +363,24 @@
     const form = $("#commande");
     const leadId = "D" + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase();
     const telOk = (t) => /^(?:\+212|00212|0)?[5-7]\d{8}$/.test(t.replace(/[\s.\-()]/g, ""));
+    // Message adapté : vide, chiffres manquants, en trop, ou mauvais début
+    function messageTel(t) {
+      const d = t.replace(/\D/g, "").replace(/^00212|^212/, "0");
+      if (!d) return "Indiquez votre numéro de téléphone.";
+      const local = d.startsWith("0") ? d : "0" + d;
+      if (!/^0[5-7]/.test(local)) return "Le numéro doit commencer par 05, 06 ou 07.";
+      if (local.length < 10) { const n = 10 - local.length; return `Numéro incomplet : il manque ${n} chiffre${n > 1 ? "s" : ""} (10 chiffres, ex : 06 12 34 56 78).`; }
+      if (local.length > 10) return "Numéro trop long : il doit faire 10 chiffres (ex : 06 12 34 56 78).";
+      return "Numéro invalide (ex : 06 12 34 56 78).";
+    }
+    // Les erreurs disparaissent dès que le client corrige
+    ["nom", "telephone", "ville", "adresse"].forEach((n) => form[n].addEventListener("input", () => {
+      const c = form[n].closest(".champ");
+      if (!c.classList.contains("erreur")) return;
+      const ok = n === "telephone" ? telOk(form[n].value) : n === "nom" ? form[n].value.trim().length >= 3 : n === "adresse" ? form[n].value.trim().length >= 5 : form[n].value.trim().length >= 2;
+      if (n === "telephone" && !ok) $(".msg", c).textContent = messageTel(form[n].value);
+      c.classList.toggle("erreur", !ok);
+    }));
     const telNorm = (t) => { const d = t.replace(/[^\d]/g, "").replace(/^00212|^212/, ""); return "0" + d.replace(/^0/, ""); };
 
     function donnees(statut) {
@@ -409,13 +427,19 @@
       const erreur = (name, cond) => { const c = form[name].closest(".champ"); c.classList.toggle("erreur", !cond); if (!cond) ok = false; };
       erreur("nom", form.nom.value.trim().length >= 3);
       erreur("telephone", telOk(form.telephone.value));
+      if (!telOk(form.telephone.value)) $(".msg", form.telephone.closest(".champ")).textContent = messageTel(form.telephone.value);
       erreur("ville", form.ville.value.trim().length >= 2);
       erreur("adresse", form.adresse.value.trim().length >= 5);
       const taillesOk = lignes.every((l) => l.taille);
+      const manquants = lignes.map((l, i) => (l.taille ? null : i + 1)).filter(Boolean);
+      $("#err-taille").textContent = lignes.length > 1
+        ? `Choisissez la taille du polo ${manquants.join(" et du polo ")}.`
+        : "Choisissez votre taille.";
       $("#err-taille").hidden = taillesOk;
+      $$(".ligne-article").forEach((el, i) => el.classList.toggle("manque", !lignes[i].taille));
       if (!taillesOk) ok = false;
       if (!ok) {
-        const premier = !taillesOk ? $("#lignes") : $(".champ.erreur");
+        const premier = !taillesOk ? $(".ligne-article.manque") || $("#lignes") : $(".champ.erreur");
         premier && premier.scrollIntoView({ behavior: "smooth", block: "center" });
         if (premier && premier.querySelector("input, select")) premier.querySelector("input, select").focus();
         return;
