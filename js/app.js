@@ -317,6 +317,7 @@
       $("#total").textContent = mad(total());
       $("#total-detail").textContent = offre.qte === 1 ? `dont ${S.fraisLivraison} MAD de livraison` : "Livraison offerte";
       $$("[data-cta-prix]").forEach((el) => (el.textContent = mad(total())));
+      $$("[data-cta-verbe]").forEach((el) => (el.textContent = offre.qte > 1 ? "Recevoir mes polos" : "Recevoir mon polo"));
       $("#barre-offre").textContent = offre.label;
     }
 
@@ -391,7 +392,7 @@
       if (!(await envoyer(d))) {
         // La commande n'est pas partie : on propose WhatsApp plutôt que de la perdre
         btn.disabled = false;
-        $(".btn-txt", btn).textContent = "Réessayer";
+        $(".btn-txt", btn).textContent = "Réessayer · " + mad(total());
         const msg = `Bonjour DIWAN, je souhaite commander : ${d.articles} — ${mad(d.total)}. ${d.nom}, ${d.ville}, ${d.adresse}. Tél : ${d.telephone}`;
         const e = $("#err-envoi");
         e.hidden = false;

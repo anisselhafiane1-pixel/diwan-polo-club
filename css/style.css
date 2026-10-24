@@ -492,3 +492,14 @@ img.embleme { width: auto; height: 40px; stroke: none; }
 /* Stock */
 .mini-tailles button:disabled { opacity: .35; text-decoration: line-through; cursor: not-allowed; background: transparent; }
 .ligne-article .num .reste { font-style: normal; color: var(--bordeaux); margin-left: 10px; letter-spacing: .06em; }
+
+/* Arguments et étapes dans le bloc d'achat */
+.raisons { list-style: none; margin: 0 0 22px; border-top: 1px solid var(--ligne); }
+.raisons li { padding: 11px 0 11px 22px; border-bottom: 1px solid var(--ligne); font-size: 14px; position: relative; color: var(--gris); }
+.raisons li::before { content: "✦"; position: absolute; left: 0; top: 11px; color: var(--or); font-size: 12px; }
+.raisons b { font-weight: 500; color: var(--texte); }
+.etapes { margin: 6px 0 4px; padding-left: 26px; font-size: 13px; color: var(--gris); }
+.etapes li { margin-bottom: 4px; padding-left: 4px; }
+.etapes li::marker { color: var(--or); font-weight: 500; }
+.etapes b { font-weight: 500; color: var(--texte); }
+.btn-noir .btn-txt { white-space: nowrap; font-size: 12px; letter-spacing: .18em; }
