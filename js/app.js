@@ -229,7 +229,6 @@
       $("[data-lancement-pct]").textContent = "−" + Math.round((1 - L.prixLancement / L.prixNormal) * 100) + " %";
     }
     $$("[data-serie]").forEach((el) => (el.textContent = S.serieParColoris));
-    $$("[data-echange]").forEach((el) => (el.textContent = S.echangeJours));
     $("#details-liste").innerHTML = P.details.map((d) => `<li>${d}</li>`).join("");
 
     // Galerie

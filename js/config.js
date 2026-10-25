@@ -22,7 +22,7 @@ window.STORE = {
   livraison: "Livraison partout au Maroc en 24 à 72 h",
   // ⚠️ À confirmer avec ton transporteur avant la mise en ligne
   ouvertureColis: true,
-  echangeJours: 7,
+  echangeHeures: 48, // délai pour demander une reprise après livraison
 
   // Série limitée : nombre de pièces produites par coloris
   serieParColoris: 250,
