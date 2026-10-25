@@ -603,3 +603,12 @@ body[data-page="produit"] .wa { bottom: 96px; }
     linear-gradient(180deg, rgba(13,12,10,.45) 0%, rgba(13,12,10,0) 22%, rgba(13,12,10,0) 70%, rgba(13,12,10,.6) 100%); }
   .heros p.sous { max-width: 40ch; }
 }
+
+/* iPhone : Safari zoome sur toute case de formulaire en dessous de 16 px et reste zoomé ensuite
+   (page qui déborde, barre d'achat au milieu de l'écran). On reste à 16 px minimum. */
+input, select, textarea { font-size: 16px !important; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+/* Rebond en bas de page sur iPhone : la couleur du pied de page plutôt qu'une bande crème */
+html { background: var(--noir-2); }
+body { background: var(--creme); }
