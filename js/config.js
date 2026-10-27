@@ -86,9 +86,9 @@ window.STORE = {
       prix: 299,
       epuise: true,
       coloris: [
-        { nom: "Bordeaux & Beige", face: "assets/mc-bordeaux-face.jpg", porte: "assets/mc-bordeaux-porte.jpg" },
-        { nom: "Vert & Beige", face: "assets/mc-vert-face.jpg", porte: "assets/mc-vert-porte.jpg" },
-        { nom: "Bleu & Beige", face: "assets/mc-bleu-face.jpg", porte: "assets/mc-bleu-porte.jpg" },
+        { nom: "Bordeaux & Beige", face: "assets/mc-bordeaux-face.jpg", porte: "assets/mc-bordeaux-porte.jpg", dos: "assets/mc-bordeaux-dos.jpg" },
+        { nom: "Vert & Beige", face: "assets/mc-vert-face.jpg", porte: "assets/mc-vert-porte.jpg", dos: "assets/mc-vert-dos.jpg" },
+        { nom: "Bleu & Beige", face: "assets/mc-bleu-face.jpg", porte: "assets/mc-bleu-porte.jpg", dos: "assets/mc-bleu-dos.jpg" },
       ],
     },
   ],

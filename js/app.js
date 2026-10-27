@@ -205,22 +205,28 @@
       const g = $(".collection", bloc);
       m.coloris.forEach((c, i) => {
         const msg = encodeURIComponent(`Bonjour, prévenez-moi quand ${m.nom} ${c.nom} sera de retour.`);
-        const a = document.createElement("a");
+        const a = document.createElement("div");
         a.className = `carte revele d${i + 1}` + (m.epuise ? " epuise" : "");
-        a.href = `https://wa.me/${S.whatsapp}?text=${msg}`;
-        a.target = "_blank"; a.rel = "noopener";
+        const vues = [["Face", c.face], ["Porté", c.porte], ["Dos", c.dos]].filter((v) => v[1]);
         a.innerHTML = `
           <div class="carte-visuel">
             ${m.epuise ? `<span class="carte-tag">Épuisé</span>` : ""}
-            <span class="carte-voir">${m.epuise ? "Me prévenir du retour" : "Découvrir"}</span>
+            <div class="carte-vues">${vues.map((v, j) => `<button type="button" class="${j ? "" : "actif"}">${v[0]}</button>`).join("")}</div>
+            <a class="carte-voir" href="https://wa.me/${S.whatsapp}?text=${msg}" target="_blank" rel="noopener">${m.epuise ? "Me prévenir du retour" : "Découvrir"}</a>
           </div>
           <div class="carte-info">
             <div><h3>${c.nom}</h3><small>${m.epuise ? "Rupture de stock" : ""}</small></div>
             <span class="carte-prix">${mad(m.prix)}</span>
           </div>`;
         const v = $(".carte-visuel", a);
-        const img = new Image(); img.alt = `${m.nom} ${c.nom}`; img.loading = "lazy"; img.src = c.face; v.appendChild(img);
-        if (c.porte) { const s2 = new Image(); s2.className = "survol"; s2.alt = ""; s2.loading = "lazy"; s2.src = c.porte; v.appendChild(s2); }
+        const imgs = vues.map((vu, j) => {
+          const img = new Image(); img.alt = `${m.nom} ${c.nom}, ${vu[0].toLowerCase()}`; img.loading = "lazy"; img.src = vu[1];
+          img.className = "vue" + (j ? "" : " actif"); v.insertBefore(img, v.firstChild); return img;
+        });
+        $$(".carte-vues button", a).forEach((b, j) => (b.onclick = () => {
+          $$(".carte-vues button", a).forEach((x) => x.classList.remove("actif")); b.classList.add("actif");
+          imgs.forEach((im, k) => im.classList.toggle("actif", k === j));
+        }));
         g.appendChild(a);
       });
       autres.appendChild(bloc);
