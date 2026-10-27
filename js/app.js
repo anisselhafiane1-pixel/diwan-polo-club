@@ -239,7 +239,6 @@
       vignettes.innerHTML = "";
       const sources = [];
       coloris.photos.forEach((src) => sources.push({ src, c: coloris }));
-      S.coloris.filter((c) => c !== coloris).forEach((c) => sources.push({ src: c.photos[0], c }));
       sources.forEach((s, i) => {
         const b = document.createElement("button");
         b.type = "button";
