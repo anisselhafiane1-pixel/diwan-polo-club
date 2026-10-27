@@ -196,6 +196,36 @@
       grille.appendChild(a);
     });
 
+    // Autres modèles épuisés : présentés, sans commande ; bouton pour être prévenu du retour
+    const autres = $("#autres-modeles");
+    if (autres) (S.autresModeles || []).forEach((m) => {
+      const bloc = document.createElement("div");
+      bloc.className = "autre-modele";
+      bloc.innerHTML = `<div class="titre-section revele"><p class="eyebrow">${m.epuise ? "Épuisé" : "Nouveau"}</p><h2>${m.nom}</h2></div><div class="collection"></div>`;
+      const g = $(".collection", bloc);
+      m.coloris.forEach((c, i) => {
+        const msg = encodeURIComponent(`Bonjour, prévenez-moi quand ${m.nom} ${c.nom} sera de retour.`);
+        const a = document.createElement("a");
+        a.className = `carte revele d${i + 1}` + (m.epuise ? " epuise" : "");
+        a.href = `https://wa.me/${S.whatsapp}?text=${msg}`;
+        a.target = "_blank"; a.rel = "noopener";
+        a.innerHTML = `
+          <div class="carte-visuel">
+            ${m.epuise ? `<span class="carte-tag">Épuisé</span>` : ""}
+            <span class="carte-voir">${m.epuise ? "Me prévenir du retour" : "Découvrir"}</span>
+          </div>
+          <div class="carte-info">
+            <div><h3>${c.nom}</h3><small>${m.epuise ? "Rupture de stock" : ""}</small></div>
+            <span class="carte-prix">${mad(m.prix)}</span>
+          </div>`;
+        const v = $(".carte-visuel", a);
+        const img = new Image(); img.alt = `${m.nom} ${c.nom}`; img.loading = "lazy"; img.src = c.face; v.appendChild(img);
+        if (c.porte) { const s2 = new Image(); s2.className = "survol"; s2.alt = ""; s2.loading = "lazy"; s2.src = c.porte; v.appendChild(s2); }
+        g.appendChild(a);
+      });
+      autres.appendChild(bloc);
+    });
+
     // Bandeau photos portées
     const porte = $("#portes");
     if (porte) S.coloris.forEach((c) => {

@@ -79,6 +79,20 @@ window.STORE = {
     },
   ],
 
+  // Autres modèles, présentés sur l'accueil. epuise: true = affiché « Épuisé », sans commande possible.
+  autresModeles: [
+    {
+      nom: "Le Polo Club manches courtes",
+      prix: 299,
+      epuise: true,
+      coloris: [
+        { nom: "Bordeaux & Beige", face: "assets/mc-bordeaux-face.jpg", porte: "assets/mc-bordeaux-porte.jpg" },
+        { nom: "Vert & Beige", face: "assets/mc-vert-face.jpg", porte: "assets/mc-vert-porte.jpg" },
+        { nom: "Bleu & Beige", face: "assets/mc-bleu-face.jpg", porte: "assets/mc-bleu-porte.jpg" },
+      ],
+    },
+  ],
+
   // Prix. L'offre reste active tant que « active » vaut true : aucun changement automatique.
   // Pour l'arrêter : active: false (le site affiche alors le prix normal, sans prix barré).
   lancement: { active: true, prixLancement: 399, prixNormal: 665 },

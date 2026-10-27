@@ -612,3 +612,9 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* Rebond en bas de page sur iPhone : la couleur du pied de page plutôt qu'une bande crème */
 html { background: var(--noir-2); }
 body { background: var(--creme); }
+
+/* Autres modèles (épuisés) */
+.autre-modele { margin-top: clamp(64px, 9vw, 120px); }
+.carte.epuise .carte-visuel img { filter: saturate(.75); }
+.carte.epuise .carte-tag { background: var(--noir); color: var(--creme); }
+.carte.epuise .carte-prix { color: var(--gris); }
