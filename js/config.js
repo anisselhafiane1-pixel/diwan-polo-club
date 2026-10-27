@@ -57,7 +57,6 @@ window.STORE = {
       principal: "#121212",
       accent: "#e8dcc4",
       photos: ["assets/noir-face.jpg", "assets/noir-selfie.jpg", "assets/noir-dos.jpg"], // face, porté, dos
-      porteReel: "assets/noir-porte-reel.jpg", // photo réelle, sans visage (accueil, section « Porté »)
       phrase: "Le plus affirmé. Il se porte le soir comme le week-end.",
     },
     {
@@ -67,7 +66,6 @@ window.STORE = {
       principal: "#5c1a24",
       accent: "#e8dcc4",
       photos: ["assets/bordeaux-face.jpg", "assets/bordeaux-selfie.jpg", "assets/bordeaux-dos.jpg"], // face, porté, dos
-      porteReel: "assets/bordeaux-porte-reel.jpg", // photo réelle, sans visage (accueil, section « Porté »)
       phrase: "Le plus raffiné. Une couleur profonde qu'on remarque sans qu'elle crie.",
     },
     {
@@ -77,7 +75,6 @@ window.STORE = {
       principal: "#1d3b8c",
       accent: "#e8dcc4",
       photos: ["assets/marine-face.jpg", "assets/marine-selfie.jpg", "assets/marine-dos.jpg"], // face, porté, dos
-      porteReel: "assets/marine-porte-reel.jpg", // photo réelle, sans visage (accueil, section « Porté »)
       phrase: "Le classique des clubs. Il va avec tout ce que vous avez déjà.",
     },
   ],
