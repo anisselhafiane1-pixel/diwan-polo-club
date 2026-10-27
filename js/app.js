@@ -204,29 +204,21 @@
       bloc.innerHTML = `<div class="titre-section revele"><p class="eyebrow">${m.epuise ? "Épuisé" : "Nouveau"}</p><h2>${m.nom}</h2></div><div class="collection"></div>`;
       const g = $(".collection", bloc);
       m.coloris.forEach((c, i) => {
-        const msg = encodeURIComponent(`Bonjour, prévenez-moi quand ${m.nom} ${c.nom} sera de retour.`);
-        const a = document.createElement("div");
+        const a = document.createElement("a");
         a.className = `carte revele d${i + 1}` + (m.epuise ? " epuise" : "");
-        const vues = [["Face", c.face], ["Porté", c.porte], ["Dos", c.dos]].filter((v) => v[1]);
+        a.href = `epuise.html?modele=${m.slug}&coloris=${c.id}`;
         a.innerHTML = `
           <div class="carte-visuel">
-            ${m.epuise ? `<span class="carte-tag">Épuisé</span>` : ""}
-            <div class="carte-vues">${vues.map((v, j) => `<button type="button" class="${j ? "" : "actif"}">${v[0]}</button>`).join("")}</div>
-            <a class="carte-voir" href="https://wa.me/${S.whatsapp}?text=${msg}" target="_blank" rel="noopener">${m.epuise ? "Me prévenir du retour" : "Découvrir"}</a>
+            ${m.epuise ? `<span class="voile-epuise"><b>Épuisé</b><small>Bientôt de retour</small></span>` : ""}
+            <span class="carte-voir">${m.epuise ? "Être prévenu du retour" : "Découvrir"}</span>
           </div>
           <div class="carte-info">
             <div><h3>${c.nom}</h3><small>${m.epuise ? "Rupture de stock" : ""}</small></div>
             <span class="carte-prix">${mad(m.prix)}</span>
           </div>`;
         const v = $(".carte-visuel", a);
-        const imgs = vues.map((vu, j) => {
-          const img = new Image(); img.alt = `${m.nom} ${c.nom}, ${vu[0].toLowerCase()}`; img.loading = "lazy"; img.src = vu[1];
-          img.className = "vue" + (j ? "" : " actif"); v.insertBefore(img, v.firstChild); return img;
-        });
-        $$(".carte-vues button", a).forEach((b, j) => (b.onclick = () => {
-          $$(".carte-vues button", a).forEach((x) => x.classList.remove("actif")); b.classList.add("actif");
-          imgs.forEach((im, k) => im.classList.toggle("actif", k === j));
-        }));
+        const img = new Image(); img.alt = `${m.nom} ${c.nom}`; img.loading = "lazy"; img.src = c.face; v.insertBefore(img, v.firstChild);
+        if (c.porte) { const s2 = new Image(); s2.className = "survol"; s2.alt = ""; s2.loading = "lazy"; s2.src = c.porte; v.insertBefore(s2, img.nextSibling); }
         g.appendChild(a);
       });
       autres.appendChild(bloc);
@@ -242,6 +234,66 @@
       porte.appendChild(f);
     });
 
+    observer();
+  }
+
+  /* ============================================================
+     PAGE MODÈLE ÉPUISÉ : galerie + « prévenez-moi du retour »
+     ============================================================ */
+  if (page === "epuise") {
+    const q = new URLSearchParams(location.search);
+    const m = (S.autresModeles || []).find((x) => x.slug === q.get("modele")) || (S.autresModeles || [])[0];
+    if (!m) { location.href = "index.html"; return; }
+    let c = m.coloris.find((x) => x.id === q.get("coloris")) || m.coloris[0];
+    document.title = `${m.nom} · DIWAN POLO CLUB`;
+    $$("[data-nom]").forEach((el) => (el.textContent = m.nom));
+    $("[data-sous-titre]").textContent = m.sousTitre || "";
+    $("[data-prix]").textContent = mad(m.prix);
+    const principal = $(".visuel-principal"), vignettes = $(".vignettes");
+    function rendre() {
+      $("#nom-coloris").textContent = c.nom;
+      history.replaceState(null, "", `?modele=${m.slug}&coloris=${c.id}`);
+      vignettes.innerHTML = "";
+      const vues = [c.face, c.porte, c.dos].filter(Boolean);
+      const montrer = (src) => { $$(".visuel-principal > :not(.badge-epuise)").forEach((n) => n.remove()); principal.appendChild(visuel(src, c)); };
+      vues.forEach((src, i) => {
+        const b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-label", `Voir la photo ${i + 1}`);
+        b.appendChild(visuel(src, c));
+        b.onclick = () => { $$("button", vignettes).forEach((x) => x.classList.remove("actif")); b.classList.add("actif"); montrer(src); };
+        if (!i) { b.classList.add("actif"); montrer(src); }
+        vignettes.appendChild(b);
+      });
+      const p = $("#coloris"); p.innerHTML = "";
+      m.coloris.forEach((x) => {
+        const b = document.createElement("button"); b.type = "button"; b.title = x.nom; b.setAttribute("aria-label", x.nom);
+        b.style.background = pastille(x); if (x === c) b.classList.add("actif");
+        b.onclick = () => { c = x; rendre(); }; p.appendChild(b);
+      });
+    }
+    rendre();
+
+    const f = $("#alerte"), champ = $("#contact"), msg = $("#alerte-msg");
+    f.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const v = champ.value.trim();
+      const email = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(v);
+      const tel = /^0[5-7]\d{8}$/.test("0" + v.replace(/\D/g, "").replace(/^(00212|212)/, "").replace(/^0/, ""));
+      if (!email && !tel) { msg.textContent = "Indiquez un e-mail valide ou un numéro marocain (ex : 06 12 34 56 78)."; msg.className = "alerte-msg erreur"; champ.focus(); return; }
+      const btn = $("button[type=submit]", f); btn.disabled = true;
+      try {
+        const r = await fetch(`${S.api.url}/rest/v1/rpc/diwan_alerte_retour`, {
+          method: "POST", headers: { apikey: S.api.cle, Authorization: `Bearer ${S.api.cle}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ p_modele: m.nom, p_coloris: c.nom, p_contact: v }),
+        });
+        if (!r.ok) throw new Error();
+        f.hidden = true;
+        msg.textContent = `C'est noté. Nous vous prévenons dès le retour du ${m.nom} ${c.nom}, avant tout le monde.`;
+        msg.className = "alerte-msg ok";
+        track("Lead", { content_name: `${m.nom} ${c.nom}` });
+      } catch {
+        msg.textContent = "L'envoi n'a pas abouti. Réessayez, ou écrivez-nous sur WhatsApp."; msg.className = "alerte-msg erreur";
+      } finally { btn.disabled = false; }
+    });
     observer();
   }
 

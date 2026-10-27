@@ -624,3 +624,16 @@ body { background: var(--creme); }
 .carte-vues button { font: inherit; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; background: rgba(244,239,230,.85); color: var(--noir); border: 0; padding: 6px 9px; cursor: pointer; }
 .carte-vues button.actif { background: var(--noir); color: var(--creme); }
 .carte-visuel .carte-vues { inset: auto; top: 16px; right: 16px; width: auto; height: auto; transform: none !important; }
+
+/* Épuisé : voile et grand libellé sur l'image */
+.carte-visuel .voile-epuise { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; background: rgba(244,239,230,.18); pointer-events: none; transform: none !important; }
+.voile-epuise b { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 3.4vw, 46px); letter-spacing: .14em; text-transform: uppercase; color: var(--noir); background: rgba(244,239,230,.88); padding: 6px 22px 4px; border-top: 1px solid var(--noir); border-bottom: 1px solid var(--noir); }
+.voile-epuise small { font-size: 10px; letter-spacing: .26em; text-transform: uppercase; color: var(--noir); background: rgba(244,239,230,.88); padding: 4px 10px; }
+.badge-epuise { position: absolute; top: 16px; left: 16px; z-index: 2; background: var(--noir); color: var(--creme); font-size: 11px; letter-spacing: .24em; text-transform: uppercase; padding: 8px 12px; }
+.bloc-epuise { border: 1px solid var(--ligne); padding: 22px; margin: 22px 0; background: #fbf8f2; }
+.bloc-epuise h2 { font-size: 26px; margin-bottom: 8px; }
+.bloc-epuise p { color: var(--gris); font-size: 14px; margin-bottom: 16px; }
+.alerte-msg { font-size: 14px; margin-top: 10px; }
+.alerte-msg.erreur { color: #9b1c1c; }
+.alerte-msg.ok { color: #1d5c37; font-size: 15px; }
+.prix-epuise { font-size: 22px; color: var(--gris); }

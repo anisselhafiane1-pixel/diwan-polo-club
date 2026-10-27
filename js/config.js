@@ -82,13 +82,15 @@ window.STORE = {
   // Autres modèles, présentés sur l'accueil. epuise: true = affiché « Épuisé », sans commande possible.
   autresModeles: [
     {
+      slug: "manches-courtes",
       nom: "Le Polo Club manches courtes",
+      sousTitre: "Polo manches courtes · 100 % coton piqué",
       prix: 299,
       epuise: true,
       coloris: [
-        { nom: "Bordeaux & Beige", face: "assets/mc-bordeaux-face.jpg", porte: "assets/mc-bordeaux-porte.jpg", dos: "assets/mc-bordeaux-dos.jpg" },
-        { nom: "Vert & Beige", face: "assets/mc-vert-face.jpg", porte: "assets/mc-vert-porte.jpg", dos: "assets/mc-vert-dos.jpg" },
-        { nom: "Bleu & Beige", face: "assets/mc-bleu-face.jpg", porte: "assets/mc-bleu-porte.jpg", dos: "assets/mc-bleu-dos.jpg" },
+        { id: "bordeaux", nom: "Bordeaux & Beige", principal: "#5a1420", accent: "#e3cfb4", face: "assets/mc-bordeaux-face.jpg", porte: "assets/mc-bordeaux-porte.jpg", dos: "assets/mc-bordeaux-dos.jpg" },
+        { id: "vert", nom: "Vert & Beige", principal: "#1d4a35", accent: "#e3cfb4", face: "assets/mc-vert-face.jpg", porte: "assets/mc-vert-porte.jpg", dos: "assets/mc-vert-dos.jpg" },
+        { id: "bleu", nom: "Bleu & Beige", principal: "#1d3b8c", accent: "#e3cfb4", face: "assets/mc-bleu-face.jpg", porte: "assets/mc-bleu-porte.jpg", dos: "assets/mc-bleu-dos.jpg" },
       ],
     },
   ],
