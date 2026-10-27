@@ -201,7 +201,7 @@
     if (porte) S.coloris.forEach((c) => {
       const f = document.createElement("figure");
       f.className = "revele";
-      f.appendChild(visuel(c.photos[1] || c.photos[0], c, `${c.nom} porté`));
+      f.appendChild(visuel(c.porteReel || c.photos[1] || c.photos[0], c, `${c.nom} porté`));
       f.insertAdjacentHTML("beforeend", `<figcaption>${c.nom}</figcaption>`);
       porte.appendChild(f);
     });
