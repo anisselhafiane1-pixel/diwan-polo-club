@@ -45,7 +45,6 @@ window.STORE = {
       "Col polo structuré",
       "Poignets côtelés",
       "Finitions contrastées",
-      "Confectionné au Maroc",
     ],
   },
 

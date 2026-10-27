@@ -90,7 +90,6 @@
       "Série limitée · quantités limitées",
       ...(enLancement ? [`Profitez de l'offre −${Math.round((1 - L.prixLancement / L.prixNormal) * 100)} % · quantité limitée`] : []),
       S.offres.map((o) => `${o.label} ${mad(o.prix)}`).join(" · "),
-      "Confectionné au Maroc",
       "100 % coton",
     ];
     annonce.innerHTML = [...msgs, ...msgs].map((m) => `<span>${m}</span>`).join("");
