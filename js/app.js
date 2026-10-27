@@ -88,7 +88,8 @@
       "Paiement à la livraison",
       S.livraison,
       "Série limitée · quantités limitées",
-      ...(enLancement ? [`Offre limitée : −${Math.round((1 - L.prixLancement / L.prixNormal) * 100)} % sur tous nos polos`] : []),
+      ...(enLancement ? [`Profitez de l'offre −${Math.round((1 - L.prixLancement / L.prixNormal) * 100)} % · quantité limitée`] : []),
+      S.offres.map((o) => `${o.label} ${mad(o.prix)}`).join(" · "),
       "Confectionné au Maroc",
       "100 % coton",
     ];

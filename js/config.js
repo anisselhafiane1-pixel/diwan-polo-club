@@ -57,7 +57,7 @@ window.STORE = {
       court: "Noir",
       principal: "#121212",
       accent: "#e8dcc4",
-      photos: ["assets/noir-studio.jpg", "assets/noir-dressing.jpg"],
+      photos: ["assets/noir-face.jpg", "assets/noir-selfie.jpg", "assets/noir-dos.jpg", "assets/noir-studio.jpg", "assets/noir-dressing.jpg"],
       phrase: "Le plus affirmé. Il se porte le soir comme le week-end.",
     },
     {
@@ -66,16 +66,16 @@ window.STORE = {
       court: "Bordeaux",
       principal: "#5c1a24",
       accent: "#e8dcc4",
-      photos: ["assets/bordeaux-studio.jpg", "assets/bordeaux-dressing.jpg"],
+      photos: ["assets/bordeaux-face.jpg", "assets/bordeaux-selfie.jpg", "assets/bordeaux-dos.jpg", "assets/bordeaux-studio.jpg", "assets/bordeaux-dressing.jpg"],
       phrase: "Le plus raffiné. Une couleur profonde qu'on remarque sans qu'elle crie.",
     },
     {
       id: "marine",
-      nom: "Indigo & Beige",
-      court: "Indigo",
-      principal: "#2a2f6e",
+      nom: "Bleu indigo & Beige",
+      court: "Bleu indigo",
+      principal: "#1d3b8c",
       accent: "#e8dcc4",
-      photos: ["assets/marine-studio.jpg", "assets/marine-dressing.jpg"],
+      photos: ["assets/marine-face.jpg", "assets/marine-selfie.jpg", "assets/marine-dos.jpg", "assets/marine-studio.jpg", "assets/marine-dressing.jpg"],
       phrase: "Le classique des clubs. Il va avec tout ce que vous avez déjà.",
     },
   ],
@@ -83,7 +83,7 @@ window.STORE = {
   // Prix. L'offre reste active tant que « active » vaut true : aucun changement automatique.
   // Pour l'arrêter : active: false (le site affiche alors le prix normal, sans prix barré).
   lancement: { active: true, prixLancement: 399, prixNormal: 665 },
-  remisePack: { 2: 50, 3: 100 }, // remise sur le total pour 2 et 3 polos
+  remisePack: { 2: 99, 3: 198 }, // remise sur le total : 699 MAD les 2, 999 MAD les 3
   fraisLivraison: 35, // 1 polo seulement, hors période de lancement
 
   tailles: ["S", "M", "L", "XL", "XXL"],
