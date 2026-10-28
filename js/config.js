@@ -74,7 +74,7 @@ window.STORE = {
       court: "Bleu indigo",
       principal: "#22406e",
       accent: "#e8dcc4",
-      photos: ["assets/marine-face.jpg", "assets/marine-selfie.jpg", "assets/marine-dos.jpg"], // face, porté, dos
+      photos: ["assets/marine2-face.jpg", "assets/marine2-selfie.jpg", "assets/marine2-dos.jpg"], // face, porté, dos
       phrase: "Le classique des clubs. Il va avec tout ce que vous avez déjà.",
     },
   ],
