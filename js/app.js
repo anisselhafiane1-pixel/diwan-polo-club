@@ -81,6 +81,20 @@
   }
   const track = (ev, data) => { try { window.fbq && fbq("track", ev, data); } catch {} };
 
+  /* ---------- Compteur de visiteurs (anonyme : un identifiant au hasard, aucune donnée personnelle) ---------- */
+  (function compterVisite() {
+    if (!S.api || !["accueil", "produit", "epuise", "merci"].includes(page)) return;
+    let vid = store.get("diwan_vid", "");
+    if (!/^[a-z0-9]{8,40}$/.test(vid)) { vid = Array.from(crypto.getRandomValues(new Uint8Array(12)), (b) => (b % 36).toString(36)).join(""); store.set("diwan_vid", vid); }
+    const utm = store.get("diwan_utm", {});
+    let source = utm.utm_source || (utm.fbclid ? "facebook" : "");
+    if (!source && document.referrer) {
+      try { const h = new URL(document.referrer).hostname; if (!h.endsWith("diwanclub.ma")) source = /instagram/.test(h) ? "instagram" : /facebook|fb\./.test(h) ? "facebook" : /google/.test(h) ? "google" : /tiktok/.test(h) ? "tiktok" : h; } catch {}
+    }
+    fetch(`${S.api.url}/rest/v1/rpc/diwan_visite`, { method: "POST", keepalive: true, headers: { apikey: S.api.cle, Authorization: `Bearer ${S.api.cle}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ p_visiteur: vid, p_page: page, p_source: source }) }).catch(() => {});
+  })();
+
   /* ---------- Commun : en-tête, bandeau, WhatsApp, apparitions ---------- */
   const annonce = $(".annonce-piste");
   if (annonce) {
