@@ -544,7 +544,7 @@
         $("a", e).href = `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
         return;
       }
-      track("Lead", { value: d.total, currency: "MAD" });
+      track("Purchase", { value: d.total, currency: "MAD", num_items: d.quantite, content_ids: d.liste.map((l) => l.coloris), content_type: "product" });
       try { sessionStorage.setItem("diwan_derniere", JSON.stringify(d)); } catch {}
       location.href = "merci.html";
     });

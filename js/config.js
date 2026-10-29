@@ -14,7 +14,7 @@ window.STORE = {
   api: { url: "https://texwppriemmmtndapfta.supabase.co", cle: "sb_publishable_P2ipLt202wUcAw2OSHMplw_YGnHZQem" },
 
   // ID du pixel Meta (Facebook / Instagram). Vide = désactivé.
-  metaPixelId: "",
+  metaPixelId: "1134443032606914",
 
   // Vidéos d'accueil, jouées l'une après l'autre en fondu.
   heroVideos: ["assets/hero-reel.mp4"], // vraies vidéos, sans visage (montage du 27/10)
