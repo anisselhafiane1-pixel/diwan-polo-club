@@ -598,16 +598,14 @@
         ["Commande", d.id], ["Articles", d.articles], ["Livraison", `${d.ville} · ${d.adresse}`], ["Téléphone", d.telephone], ["À payer à la livraison", mad(d.total)],
       ].map(([k, v]) => `<div><span>${k}</span><b>${v}</b></div>`).join("");
       if (d.club === "oui") $("#club-merci").hidden = false;
-      // Message détaillé : chaque polo, total, adresse, et lien produit (aperçu photo dans WhatsApp)
+      // Message détaillé : chaque polo, total, adresse (sans lien)
       const polos = (d.liste || []).map((l) => `• ${S.produit.nom}, ${S.coloris.find((c) => c.id === l.coloris)?.court || l.coloris}, taille ${l.taille}`);
-      const premier = d.liste?.[0]?.coloris || "bordeaux";
       const msg = [
         `Bonjour DIWAN, je confirme ma commande n° ${d.id} :`, "",
         ...(polos.length ? polos : [`• ${d.articles}`]), "",
         `Total : ${mad(d.total)}, payé à la livraison`,
         `Nom : ${d.nom}`, `Téléphone : ${d.telephone}`, `Adresse : ${d.adresse}, ${d.ville}`,
-        ...(d.club === "oui" ? ["Membre du Club DIWAN"] : []), "",
-        `https://diwanclub.ma/produit.html?coloris=${premier}`,
+        ...(d.club === "oui" ? ["Membre du Club DIWAN"] : []),
       ].join("\n");
       $("#wa-confirmer").href = `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
     } else {
