@@ -82,6 +82,7 @@
   const track = (ev, data) => { try { window.fbq && fbq("track", ev, data); } catch {} };
 
   /* ---------- Compteur de visiteurs (anonyme : un identifiant au hasard, aucune donnée personnelle) ---------- */
+  let signal = () => {};
   (function compterVisite() {
     if (!S.api || !["accueil", "produit", "epuise", "merci"].includes(page)) return;
     let vid = store.get("diwan_vid", "");
@@ -91,8 +92,9 @@
     if (!source && document.referrer) {
       try { const h = new URL(document.referrer).hostname; if (!h.endsWith("diwanclub.ma")) source = /instagram/.test(h) ? "instagram" : /facebook|fb\./.test(h) ? "facebook" : /google/.test(h) ? "google" : /tiktok/.test(h) ? "tiktok" : h; } catch {}
     }
-    fetch(`${S.api.url}/rest/v1/rpc/diwan_visite`, { method: "POST", keepalive: true, headers: { apikey: S.api.cle, Authorization: `Bearer ${S.api.cle}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ p_visiteur: vid, p_page: page, p_source: source }) }).catch(() => {});
+    signal = (etape) => fetch(`${S.api.url}/rest/v1/rpc/diwan_visite`, { method: "POST", keepalive: true, headers: { apikey: S.api.cle, Authorization: `Bearer ${S.api.cle}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ p_visiteur: vid, p_page: etape, p_source: source }) }).catch(() => {});
+    signal(page);
   })();
 
   /* ---------- Commun : en-tête, bandeau, WhatsApp, apparitions ---------- */
@@ -322,6 +324,12 @@
     let lignes = []; // [{coloris, taille}]
 
     track("ViewContent", { content_name: P.nom, value: P.prix, currency: "MAD" });
+    const vus = {};
+    addEventListener("scroll", () => {
+      const f = (scrollY + innerHeight) / document.documentElement.scrollHeight;
+      if (f > 0.5 && !vus.m) { vus.m = 1; signal("descend_50"); }
+      if (f > 0.9 && !vus.f) { vus.f = 1; signal("descend_fin"); }
+    }, { passive: true });
 
     // Textes dynamiques
     $$("[data-prix]").forEach((el) => (el.textContent = mad(prixBase)));
@@ -517,6 +525,7 @@
 
     // Lead partiel : dès qu'un numéro valide est saisi (relance des commandes abandonnées)
     let partielEnvoye = false, commence = false;
+    form.addEventListener("input", () => signal("form_debut"), { once: true });
     form.telephone.addEventListener("blur", () => {
       if (!partielEnvoye && telOk(form.telephone.value)) { partielEnvoye = true; envoyer(donnees("partiel")); }
     });
@@ -539,6 +548,8 @@
       $$(".ligne-article").forEach((el, i) => el.classList.toggle("manque", !lignes[i].taille));
       if (!taillesOk) ok = false;
       if (!ok) {
+        ["nom", "telephone", "ville", "adresse"].forEach((n) => { if (form[n].closest(".champ").classList.contains("erreur")) signal("form_err_" + n); });
+        if (!taillesOk) signal("form_err_taille");
         const premier = !taillesOk ? $(".ligne-article.manque") || $("#lignes") : $(".champ.erreur");
         premier && premier.scrollIntoView({ behavior: "smooth", block: "center" });
         if (premier && premier.querySelector("input, select")) premier.querySelector("input, select").focus();
@@ -553,6 +564,7 @@
         btn.disabled = false;
         $(".btn-txt", btn).textContent = "Réessayer · " + mad(total());
         const msg = `Bonjour DIWAN, je souhaite commander : ${d.articles}, ${mad(d.total)}. ${d.nom}, ${d.ville}, ${d.adresse}. Tél : ${d.telephone}`;
+        signal("envoi_echec");
         const e = $("#err-envoi");
         e.hidden = false;
         $("a", e).href = `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
@@ -585,6 +597,7 @@
       e.preventDefault();
       dlgC.showModal();
       dlgC.scrollTop = 0;
+      signal("ouvre_commande");
       track("InitiateCheckout", { value: total(), currency: "MAD" });
     }));
     $(".fermer", dlgC).onclick = () => dlgC.close();
@@ -622,6 +635,7 @@
         ...(d.club === "oui" ? ["Membre du Club DIWAN"] : []),
       ].join("\n");
       $("#wa-confirmer").href = `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
+      $("#wa-confirmer").addEventListener("click", () => signal("wa_merci"), { once: true });
     } else {
       $("#recap").remove();
       $("#prenom-v").remove();
