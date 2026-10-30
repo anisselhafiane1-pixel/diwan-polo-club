@@ -642,4 +642,5 @@ body { background: var(--creme); }
 .btn-wa { background: #1fa855; color: #fff; width: 100%; padding: 20px; font-size: 13px; display: inline-flex; gap: 10px; justify-content: center; align-items: center; }
 .btn-wa::before { background: #178a45; }
 .btn-wa:hover::before { transform: translateY(0); }
-.wa-pourquoi { max-width: 460px; margin: 26px auto 14px; font-size: 15px; }
+.wa-pourquoi { max-width: 460px; margin: 18px auto 14px; font-size: 15px; }
+#wa-confirmer { margin-bottom: 26px; }
