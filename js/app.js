@@ -320,7 +320,7 @@
     const P = S.produit;
     const q = new URLSearchParams(location.search);
     let coloris = S.coloris.find((c) => c.id === q.get("coloris")) || S.coloris[1];
-    let offre = S.offres[S.offres.length - 1]; // le pack est présélectionné
+    let offre = S.offres[0]; // 1 polo présélectionné : le client voit d'abord le prix d'un polo
     let lignes = []; // [{coloris, taille}]
 
     track("ViewContent", { content_name: P.nom, value: P.prix, currency: "MAD" });
@@ -337,6 +337,9 @@
       $$("[data-prix-normal]").forEach((el) => { el.textContent = mad(L.prixNormal); el.hidden = false; });
       $("#lancement").hidden = false;
       $("[data-lancement-pct]").textContent = "−" + Math.round((1 - L.prixLancement / L.prixNormal) * 100) + " %";
+      const haut = $("#offre-haut");
+      haut.innerHTML = `Le polo à <b>${mad(L.prixLancement)}</b> au lieu de <s>${mad(L.prixNormal)}</s> · <b>−${Math.round((1 - L.prixLancement / L.prixNormal) * 100)} %</b><small>Paiement à la livraison · Livraison offerte</small>`;
+      haut.hidden = false;
     }
     $$("[data-serie]").forEach((el) => (el.textContent = S.serieParColoris));
     $("#details-liste").innerHTML = P.details.map((d) => `<li>${d}</li>`).join("");
