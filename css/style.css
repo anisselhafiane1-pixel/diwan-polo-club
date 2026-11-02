@@ -669,3 +669,7 @@ body { background: var(--creme); }
 .avis-carte .avis-traduction { font-family: var(--sans); font-size: 13px; color: var(--gris); margin: -10px 0 16px; line-height: 1.5; }
 .avis-verifie { margin-top: 10px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--vert, #2f7a4f); }
 @media (min-width: 900px) { .avis-grille { grid-template-columns: repeat(4, 1fr); } }
+
+/* Première image de la vidéo pendant le chargement */
+.heros-diapo { background-size: cover; background-position: center; }
+@media (max-width: 700px) { .heros-diapo { background-position: center 25%; } }

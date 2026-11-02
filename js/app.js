@@ -163,6 +163,7 @@
     // Vidéos enchaînées en fondu : chacune démarre quand la précédente se termine
     const sources = S.heroVideos || [];
     if (!sources.length) lancerDiapo();
+    else if (S.heroPoster) diapo.style.backgroundImage = `url(${S.heroPoster})`;
     const vids = sources.map((src) => {
       const v = document.createElement("video");
       Object.assign(v, { muted: true, playsInline: true, preload: "auto", src });

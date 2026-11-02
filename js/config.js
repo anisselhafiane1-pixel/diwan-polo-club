@@ -17,7 +17,9 @@ window.STORE = {
   metaPixelId: "1919324295717472",
 
   // Vidéos d'accueil, jouées l'une après l'autre en fondu.
-  heroVideos: ["assets/hero-reel.mp4"], // vraies vidéos, sans visage (montage du 27/10)
+  heroVideos: ["assets/hero-reel.mp4?v=2"],
+  // Première image de la vidéo, affichée pendant son chargement (au lieu d'un écran noir)
+  heroPoster: "assets/hero-debut.jpg", // vraies vidéos, sans visage (montage du 27/10)
 
   livraison: "Livraison partout au Maroc en 24 à 72 h",
   // ⚠️ À confirmer avec ton transporteur avant la mise en ligne
