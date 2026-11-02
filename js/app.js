@@ -597,7 +597,7 @@
     if (S.avis.length) {
       $("#avis").hidden = false;
       $("#avis-grille").innerHTML = S.avis.map((a) => `
-        <div class="avis-carte revele"><div class="etoiles">${"★".repeat(a.note)}</div><p>« ${a.texte} »</p><small>${a.nom}${a.coloris ? " · " + a.coloris : ""}</small></div>`).join("");
+        <figure class="avis-carte revele">${a.photo ? `<img class="avis-photo" src="${a.photo}" alt="${a.nom} porte le Polo Club ${a.coloris || ""}" loading="lazy">` : ""}<figcaption>${a.note ? `<div class="etoiles">${"★".repeat(a.note)}</div>` : ""}<p>« ${a.texte} »</p>${a.traduction ? `<p class="avis-traduction">${a.traduction}</p>` : ""}<small>${a.nom}${a.coloris ? " · " + a.coloris : ""}</small><span class="avis-verifie">✓ Client vérifié</span></figcaption></figure>`).join("");
     }
 
     // Boutons « Commander » → remontent au formulaire

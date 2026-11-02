@@ -661,3 +661,11 @@ body { background: var(--creme); }
 .page-texte .accordeon { margin: 8px 0 28px; }
 .page-cta { margin-top: 28px; }
 .btn-wa-page { background: #1f9d55; color: #fff; }
+
+/* Avis clients avec photo */
+.avis-carte { padding: 0; overflow: hidden; display: flex; flex-direction: column; margin: 0; }
+.avis-carte figcaption { padding: 22px 24px 24px; display: flex; flex-direction: column; flex: 1; }
+.avis-photo { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; background: var(--creme-2); }
+.avis-carte .avis-traduction { font-family: var(--sans); font-size: 13px; color: var(--gris); margin: -10px 0 16px; line-height: 1.5; }
+.avis-verifie { margin-top: 10px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--vert, #2f7a4f); }
+@media (min-width: 900px) { .avis-grille { grid-template-columns: repeat(4, 1fr); } }
