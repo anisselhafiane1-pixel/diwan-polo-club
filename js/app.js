@@ -165,11 +165,19 @@
     if (!sources.length) lancerDiapo();
     else if (S.heroPoster) diapo.style.backgroundImage = `url(${S.heroPoster})`;
     const vids = sources.map((src) => {
+      // iPhone : muet et « inline » doivent être posés avant la source, sinon la lecture automatique est refusée
       const v = document.createElement("video");
-      Object.assign(v, { muted: true, playsInline: true, preload: "auto", src });
+      v.muted = true;
+      v.defaultMuted = true;
+      v.playsInline = true;
       v.setAttribute("muted", "");
       v.setAttribute("playsinline", "");
+      v.setAttribute("webkit-playsinline", "");
+      v.preload = "auto";
       v.loop = sources.length === 1;
+      if (S.heroPoster) v.poster = S.heroPoster;
+      if (src === sources[0]) { v.autoplay = true; v.setAttribute("autoplay", ""); }
+      v.src = src;
       diapo.after(v);
       return v;
     });
@@ -183,8 +191,14 @@
       });
     });
     if (vids[0]) {
-      vids[0].autoplay = true;
-      vids[0].addEventListener("canplay", () => { vids[0].classList.add("pret"); clearInterval(timer); vids[0].play().catch(() => {}); }, { once: true });
+      const v0 = vids[0];
+      // La vidéo n'apparaît que lorsqu'elle joue vraiment ; si le téléphone la bloque (mode économie d'énergie), l'image d'attente reste
+      v0.addEventListener("playing", () => { v0.classList.add("pret"); clearInterval(timer); }, { once: true });
+      const lancer = () => v0.play().catch(() => {});
+      v0.addEventListener("canplay", lancer, { once: true });
+      lancer();
+      // Certains navigateurs refusent la lecture tant que la page n'a pas été touchée : on relance au premier geste
+      ["touchstart", "scroll", "click"].forEach((ev) => addEventListener(ev, () => { if (v0.paused) lancer(); }, { once: true, passive: true }));
       vids[0].addEventListener("error", () => { vids.forEach((v) => v.remove()); lancerDiapo(); }, { once: true });
     }
 
