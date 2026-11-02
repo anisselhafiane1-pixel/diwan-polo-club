@@ -118,13 +118,13 @@ window.STORE = {
   // Avis clients RÉELS uniquement. La section reste masquée tant que la liste est vide.
   // ex : { nom: "Youssef, Casablanca", note: 5, texte: "...", coloris: "Bordeaux" }
   avis: [
-    { nom: "Yassin", texte: "Bien reçu . Chokran bzaf 🙏 Lahyetik sehha qualité zwina bzaf", traduction: "Bien reçu, merci beaucoup. Que Dieu vous garde, la qualité est très belle.", coloris: "Bordeaux", photo: "assets/avis/diwan-avis-1.jpg" },
-    { nom: "Imad", texte: "Ja zwin merci", traduction: "Il est très beau, merci.", coloris: "Bordeaux", photo: "assets/avis/diwan-avis-2.jpg" },
+    { nom: "Yassin", texte: "Bien reçu . Chokran bzaf 🙏 Lahyetik sehha qualité zwina bzaf", coloris: "Bordeaux", photo: "assets/avis/diwan-avis-1.jpg" },
+    { nom: "Imad", texte: "Ja zwin merci", coloris: "Bordeaux", photo: "assets/avis/diwan-avis-2.jpg" },
     { nom: "Anas", texte: "Tres satisfait du service mais surtt la qualité ✅✅", coloris: "Noir", photo: "assets/avis/diwan-avis-3.jpg" },
     { nom: "Noaman", texte: "Bien reçu", coloris: "Noir", photo: "assets/avis/diwan-avis-4.jpg" },
     { nom: "Adil", texte: "❤️", coloris: "Noir, Bleu indigo et Bordeaux", photo: "assets/avis/diwan-avis-5.jpg" },
-    { nom: "Yassin", texte: "salam j'ai bien recu la commande qualite n9iya chokran bezzaf", traduction: "Bonjour, j'ai bien reçu la commande, qualité impeccable, merci beaucoup.", coloris: "Noir", photo: "assets/avis/diwan-avis-6.jpg" },
-    { nom: "Marouan", texte: "Wsslatni la commande frr. Chapeau bas pour la qualité du tissu", traduction: "La commande m'est bien arrivée, mon frère. Chapeau bas pour la qualité du tissu.", coloris: "Noir", photo: "assets/avis/diwan-avis-7.jpg" },
+    { nom: "Yassin", texte: "salam j'ai bien recu la commande qualite n9iya chokran bezzaf", coloris: "Noir", photo: "assets/avis/diwan-avis-6.jpg" },
+    { nom: "Marouan", texte: "Wsslatni la commande frr. Chapeau bas pour la qualité du tissu", coloris: "Noir", photo: "assets/avis/diwan-avis-7.jpg" },
   ],
 
   villes: [
