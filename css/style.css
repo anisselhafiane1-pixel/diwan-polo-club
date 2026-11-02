@@ -648,3 +648,16 @@ body { background: var(--creme); }
 .btn-wa:hover::before { transform: translateY(0); }
 .wa-pourquoi { max-width: 460px; margin: 18px auto 14px; font-size: 15px; }
 #wa-confirmer { margin-bottom: 26px; }
+
+/* Lien dans une phrase : pas de style de bouton */
+.sous-cta .lien-souligne { font-size: inherit; letter-spacing: normal; text-transform: none; padding-bottom: 0; }
+/* Pages d'aide */
+.page-texte { max-width: 760px; padding-top: 48px; padding-bottom: 72px; }
+.page-texte h1 { font-family: var(--serif); font-size: clamp(34px, 6vw, 52px); font-weight: 400; margin: 8px 0 24px; }
+.page-texte h2 { font-family: var(--serif); font-size: 26px; font-weight: 500; margin: 32px 0 10px; }
+.page-texte p, .page-texte li { line-height: 1.7; margin-bottom: 10px; }
+.page-texte ul { padding-left: 20px; list-style: disc; }
+.page-texte a:not(.btn) { text-decoration: underline; text-underline-offset: 3px; }
+.page-texte .accordeon { margin: 8px 0 28px; }
+.page-cta { margin-top: 28px; }
+.btn-wa-page { background: #1f9d55; color: #fff; }

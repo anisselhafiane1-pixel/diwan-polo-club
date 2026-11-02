@@ -478,6 +478,8 @@
     // Formulaire & leads
     const form = $("#commande");
     const leadId = "D" + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase();
+    // Au moins deux lettres (latines ou arabes) : refuse les guillemets ou les chiffres seuls
+    const aDesLettres = (v, min) => v.trim().length >= min && (v.match(/\p{L}/gu) || []).length >= 2;
     const telOk = (t) => /^(?:\+212|00212|0)?[5-7]\d{8}$/.test(t.replace(/[\s.\-()]/g, ""));
     // Message adapté : vide, chiffres manquants, en trop, ou mauvais début
     function messageTel(t) {
@@ -493,7 +495,7 @@
     ["nom", "telephone", "ville", "adresse"].forEach((n) => form[n].addEventListener("input", () => {
       const c = form[n].closest(".champ");
       if (!c.classList.contains("erreur")) return;
-      const ok = n === "telephone" ? telOk(form[n].value) : n === "nom" ? form[n].value.trim().length >= 3 : n === "adresse" ? form[n].value.trim().length >= 5 : form[n].value.trim().length >= 2;
+      const ok = n === "telephone" ? telOk(form[n].value) : n === "nom" ? aDesLettres(form[n].value, 3) : n === "adresse" ? aDesLettres(form[n].value, 5) : aDesLettres(form[n].value, 2);
       if (n === "telephone" && !ok) $(".msg", c).textContent = messageTel(form[n].value);
       c.classList.toggle("erreur", !ok);
     }));
@@ -542,11 +544,11 @@
       e.preventDefault();
       let ok = true;
       const erreur = (name, cond) => { const c = form[name].closest(".champ"); c.classList.toggle("erreur", !cond); if (!cond) ok = false; };
-      erreur("nom", form.nom.value.trim().length >= 3);
+      erreur("nom", aDesLettres(form.nom.value, 3));
       erreur("telephone", telOk(form.telephone.value));
       if (!telOk(form.telephone.value)) $(".msg", form.telephone.closest(".champ")).textContent = messageTel(form.telephone.value);
-      erreur("ville", form.ville.value.trim().length >= 2);
-      erreur("adresse", form.adresse.value.trim().length >= 5);
+      erreur("ville", aDesLettres(form.ville.value, 2));
+      erreur("adresse", aDesLettres(form.adresse.value, 5));
       const taillesOk = lignes.every((l) => l.taille);
       const manquants = lignes.map((l, i) => (l.taille ? null : i + 1)).filter(Boolean);
       $("#err-taille").textContent = lignes.length > 1

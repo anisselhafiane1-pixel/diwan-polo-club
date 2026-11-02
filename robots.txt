@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /merci.html
+Sitemap: https://diwanclub.ma/sitemap.xml
