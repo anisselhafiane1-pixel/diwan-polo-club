@@ -22,7 +22,7 @@
       id: String(q), qte: q, prix, ancien,
       label: q === 1 ? "1 polo" : q === 2 ? "2 polos" : "3 polos",
       badge: q === 3 ? "Meilleure offre" : q === 2 || enLancement ? "Livraison offerte" : null,
-      note: q === 1 ? (enLancement ? "Livraison offerte" : `+ ${S.fraisLivraison} MAD de livraison`) : `Vous économisez ${ancien - prix} MAD + la livraison`,
+      note: q === 1 ? (enLancement ? "Livraison offerte" : `+ ${S.fraisLivraison} MAD de livraison`) : `Vous économisez ${ancien - prix} MAD${enLancement ? "" : " + la livraison"}`,
     };
   });
   const fraisDuJour = (q) => (q === 1 && !enLancement ? S.fraisLivraison : 0);
