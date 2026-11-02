@@ -138,26 +138,31 @@
     // Héros : vidéo si présente, sinon diaporama des photos portées
     const heros = $(".heros");
     const diapo = $(".heros-diapo");
-    S.coloris.forEach((c, i) => {
-      const slide = document.createElement("div");
-      slide.className = "diapo" + (i === 0 ? " actif" : "");
-      const img = new Image();
-      img.alt = `${S.marqueComplete} ${c.nom} porté`;
-      img.onerror = () => { slide.classList.add("dessin"); slide.innerHTML = poloSVG(c); };
-      img.src = c.photos[1] || c.photos[0];
-      slide.appendChild(img);
-      diapo.appendChild(slide);
-    });
-    let idx = 0;
-    const slides = $$(".diapo", diapo);
-    const timer = setInterval(() => {
-      slides[idx].classList.remove("actif");
-      idx = (idx + 1) % slides.length;
-      slides[idx].classList.add("actif");
-    }, 5200);
+    let timer;
+    // Le diaporama ne sert que sans vidéo : sinon une photo s'affichait le temps que la vidéo charge
+    function lancerDiapo() {
+      S.coloris.forEach((c, i) => {
+        const slide = document.createElement("div");
+        slide.className = "diapo" + (i === 0 ? " actif" : "");
+        const img = new Image();
+        img.alt = `${S.marqueComplete} ${c.nom} porté`;
+        img.onerror = () => { slide.classList.add("dessin"); slide.innerHTML = poloSVG(c); };
+        img.src = c.photos[1] || c.photos[0];
+        slide.appendChild(img);
+        diapo.appendChild(slide);
+      });
+      let idx = 0;
+      const slides = $$(".diapo", diapo);
+      timer = setInterval(() => {
+        slides[idx].classList.remove("actif");
+        idx = (idx + 1) % slides.length;
+        slides[idx].classList.add("actif");
+      }, 5200);
+    }
 
     // Vidéos enchaînées en fondu : chacune démarre quand la précédente se termine
     const sources = S.heroVideos || [];
+    if (!sources.length) lancerDiapo();
     const vids = sources.map((src) => {
       const v = document.createElement("video");
       Object.assign(v, { muted: true, playsInline: true, preload: "auto", src });
@@ -179,7 +184,7 @@
     if (vids[0]) {
       vids[0].autoplay = true;
       vids[0].addEventListener("canplay", () => { vids[0].classList.add("pret"); clearInterval(timer); vids[0].play().catch(() => {}); }, { once: true });
-      vids[0].addEventListener("error", () => vids.forEach((v) => v.remove()), { once: true });
+      vids[0].addEventListener("error", () => { vids.forEach((v) => v.remove()); lancerDiapo(); }, { once: true });
     }
 
     // Collection : les 3 coloris
