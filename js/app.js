@@ -543,10 +543,13 @@
       });
     }
 
-    function total() { return offre.prix + fraisDuJour(offre.qte); }
+    // Remise du Club DIWAN : connue dès que le client a tapé son numéro (calculée aussi côté serveur)
+    let remiseClub = 0;
+    function total() { return Math.round((offre.prix + fraisDuJour(offre.qte)) * (1 - remiseClub / 100)); }
     function majTotal() {
       $("#total").textContent = mad(total());
-      $("#total-detail").textContent = fraisDuJour(offre.qte) ? `dont ${S.fraisLivraison} MAD de livraison` : "Livraison offerte";
+      const livraison = fraisDuJour(offre.qte) ? `dont ${S.fraisLivraison} MAD de livraison` : "Livraison offerte";
+      $("#total-detail").textContent = remiseClub ? `Membre du Club : −${remiseClub} % appliqués · ${livraison}` : livraison;
       $$("[data-cta-prix]").forEach((el) => (el.textContent = mad(total())));
       $$("[data-cta-verbe]").forEach((el) => (el.textContent = "Commander maintenant"));
       $$("[data-prix-barre]").forEach((el) => (el.textContent = offre.ancien ? mad(offre.ancien) : ""));
@@ -580,6 +583,27 @@
       c.classList.toggle("erreur", !ok);
     }));
     const telNorm = (t) => { const d = t.replace(/[^\d]/g, "").replace(/^00212|^212/, ""); return "0" + d.replace(/^0/, ""); };
+
+    // Client déjà livré : sa remise de fidélité s'affiche et s'applique toute seule
+    let telVerifie = "";
+    async function verifierRemise() {
+      const t = telNorm(form.telephone.value);
+      if (!S.api || !telOk(form.telephone.value) || t === telVerifie) return;
+      telVerifie = t;
+      try {
+        const r = await fetch(`${S.api.url}/rest/v1/rpc/diwan_remise`, {
+          method: "POST",
+          headers: { apikey: S.api.cle, Authorization: `Bearer ${S.api.cle}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ p_telephone: t }),
+        });
+        const pct = r.ok ? Number(await r.json()) || 0 : 0;
+        if (pct !== remiseClub) { remiseClub = pct; majTotal(); }
+        $("#remise-club").hidden = !pct;
+        if (pct) $("#remise-club").textContent = `Bon retour au club ! Votre remise de −${pct} % est appliquée automatiquement.`;
+      } catch { /* sans réseau, le prix normal reste affiché ; l'équipe applique la remise à l'appel */ }
+    }
+    form.telephone.addEventListener("input", verifierRemise);
+    form.telephone.addEventListener("blur", verifierRemise);
 
     function donnees(statut) {
       return {

@@ -688,3 +688,6 @@ body { background: var(--creme); }
 .avis-page-tete p { color: var(--gris); }
 .avis-toutes { margin-bottom: 40px; }
 @media (max-width: 899px) { .avis-toutes { grid-template-columns: repeat(2, 1fr); gap: 12px; } .avis-toutes .avis-carte figcaption { padding: 14px; } .avis-toutes .avis-carte p { font-size: 16px; margin-bottom: 10px; } }
+
+/* Remise du Club reconnue au numéro de téléphone */
+.remise-club { margin-top: 8px; padding: 10px 12px; background: rgba(184, 151, 90, .14); border-left: 2px solid var(--or); font-size: 13px; color: var(--texte, #0d0c0a); }
