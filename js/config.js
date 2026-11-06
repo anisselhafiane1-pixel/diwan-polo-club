@@ -127,6 +127,7 @@ window.STORE = {
     { nom: "Adil", texte: "❤️", coloris: "Noir, Bleu indigo et Bordeaux", photo: "assets/avis/diwan-avis-5.jpg" },
     { nom: "Yassin", texte: "salam j'ai bien recu la commande qualite n9iya chokran bezzaf", coloris: "Noir", photo: "assets/avis/diwan-avis-6.jpg" },
     { nom: "Marouan", texte: "Wsslatni la commande frr. Chapeau bas pour la qualité du tissu", coloris: "Noir", photo: "assets/avis/diwan-avis-7.jpg" },
+    { nom: "Client", texte: "Top lahi3tikom sha", coloris: "Noir", photo: "assets/avis/diwan-avis-8.jpg" },
   ],
 
   villes: [
