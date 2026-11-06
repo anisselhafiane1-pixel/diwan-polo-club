@@ -89,3 +89,15 @@ h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(32px, 8vw, 40
   .legende { top: auto; bottom: 28px; text-align: left; left: 40px; }
 }
 @media (prefers-reduced-motion: reduce) { .fond img.active { animation: none; } .carte { animation: none; } }
+
+/* Carte en verre dépoli : on devine le monument derrière, le texte reste net
+   (flou fort + voile crème + gris plus foncé pour garder le contraste) */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .carte { --gris: #45413a; background: linear-gradient(160deg, rgba(244, 239, 230, .62), rgba(244, 239, 230, .46));
+    backdrop-filter: blur(7px) saturate(1.2) brightness(1.15); -webkit-backdrop-filter: blur(7px) saturate(1.2) brightness(1.15);
+    border-color: rgba(255, 255, 255, .45); box-shadow: 0 30px 80px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .5); }
+  .carte .surtitre { color: #8a6a2e; }
+  .champ-code input, .article { background: rgba(255, 255, 255, .62); border-color: rgba(13, 12, 10, .1); }
+  .etapes li::before { background: rgba(244, 239, 230, .75); }
+  .rassurance li, .rassurance { border-color: rgba(13, 12, 10, .14); }
+}
