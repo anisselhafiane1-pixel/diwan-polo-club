@@ -5,13 +5,14 @@
   const $ = (s) => document.querySelector(s);
 
   // Fond : monuments en fondu, chacun 7 s, avec son nom en légende
+  // Photos libres de droits (licence Unsplash), étalonnées ensemble pour un rendu homogène
   const MONUMENTS = [
     ["tour-hassan", "Tour Hassan · Rabat"],
-    ["koutoubia", "Koutoubia · Marrakech"],
+    ["koutoubia", "Koutoubia et l'Atlas · Marrakech"],
     ["oudayas", "Kasbah des Oudayas · Rabat"],
-    ["fes", "Quaraouiyine · Fès"],
-    ["ait-ben-haddou", "Aït Ben Haddou · Ouarzazate"],
-    ["bab-rouah", "Bab Rouah · Rabat"],
+    ["tamnougalt", "Kasbah de Tamnougalt · Vallée du Drâa"],
+    ["telouet", "Kasbah de Telouet · Haut Atlas"],
+    ["porte-rabat", "Porte de mosquée · Rabat"],
   ];
   const fond = $(".fond"), legende = $("#legende");
   const images = MONUMENTS.map(([f], i) => {
