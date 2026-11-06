@@ -134,7 +134,50 @@
   /* ============================================================
      ACCUEIL
      ============================================================ */
+  /* ---------- Avis clients (photos réelles) : partagés par la page produit et la page des avis ---------- */
+  const carteAvis = (a, mode) => `
+    <figure class="avis-carte${mode === "page" ? " revele" : ""}">${a.photo ? `<img class="avis-photo" src="${a.photo}" alt="${a.nom} porte le Polo Club ${a.coloris || ""}" loading="lazy">` : ""}<figcaption>${a.note ? `<div class="etoiles">${"★".repeat(a.note)}</div>` : ""}<p>« ${a.texte} »</p>${a.traduction ? `<p class="avis-traduction">${a.traduction}</p>` : ""}<small>${a.nom}${a.coloris ? " · " + a.coloris : ""}</small><span class="avis-verifie">✓ Client vérifié</span></figcaption></figure>`;
+  // Les avis du coloris regardé d'abord, puis les autres (ordre d'origine conservé dans chaque groupe)
+  const avisTries = (c) => {
+    if (!c) return S.avis;
+    const de = (a) => (a.coloris || "").toLowerCase().includes(c.court.toLowerCase());
+    return [...S.avis.filter(de), ...S.avis.filter((a) => !de(a))];
+  };
+  // Défilement des avis vers la gauche, sans fin : tant que la bande est à l'écran elle tourne,
+  // une carte toutes les 3,5 s ; elle ne s'arrête que pendant que le client la fait glisser au doigt.
+  function defilerAvis(piste) {
+    let touche = false, reprise = 0, visible = false;
+    const poser = () => { touche = true; };
+    const lever = () => { touche = false; reprise = Date.now() + 2000; };
+    ["pointerdown", "touchstart"].forEach((ev) => piste.addEventListener(ev, poser, { passive: true }));
+    ["pointerup", "pointercancel", "touchend", "touchcancel"].forEach((ev) => piste.addEventListener(ev, lever, { passive: true }));
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: 0.3 }).observe(piste);
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    setInterval(() => {
+      if (!visible || document.hidden || touche || Date.now() < reprise) return;
+      const carte = piste.querySelector(".avis-carte");
+      if (!carte) return;
+      const pas = carte.getBoundingClientRect().width + (parseFloat(getComputedStyle(piste).columnGap) || 0);
+      piste.scrollTo({ left: piste.scrollLeft + pas, behavior: "smooth" });
+      // La carte sortie à gauche repasse en fin de bande : la boucle ne revient jamais en arrière
+      setTimeout(() => {
+        if (touche || piste.scrollLeft < pas - 4) return;
+        piste.style.scrollSnapType = "none";
+        piste.appendChild(piste.firstElementChild);
+        piste.scrollLeft -= pas;
+        piste.style.scrollSnapType = "";
+      }, 900);
+    }, 3500);
+  }
+
   if (page === "accueil") {
+    // Avis des clients, en bande qui tourne, juste après le choix du coloris
+    if (S.avis.length && $("#avis-accueil")) {
+      $("#avis-accueil").hidden = false;
+      $("#avis-grille").innerHTML = S.avis.map((a) => carteAvis(a, "bande")).join("");
+      $("#avis-tous").querySelector("span").textContent = `Voir les ${S.avis.length} avis et photos de nos clients`;
+      defilerAvis($("#avis-grille"));
+    }
     // Héros : vidéo si présente, sinon diaporama des photos portées
     const heros = $(".heros");
     const diapo = $(".heros-diapo");
@@ -331,35 +374,6 @@
       } finally { btn.disabled = false; }
     });
     observer();
-  }
-
-  /* ---------- Avis clients (photos réelles) : partagés par la page produit et la page des avis ---------- */
-  const carteAvis = (a, mode) => `
-    <figure class="avis-carte${mode === "page" ? " revele" : ""}">${a.photo ? `<img class="avis-photo" src="${a.photo}" alt="${a.nom} porte le Polo Club ${a.coloris || ""}" loading="lazy">` : ""}<figcaption>${a.note ? `<div class="etoiles">${"★".repeat(a.note)}</div>` : ""}<p>« ${a.texte} »</p>${a.traduction ? `<p class="avis-traduction">${a.traduction}</p>` : ""}<small>${a.nom}${a.coloris ? " · " + a.coloris : ""}</small><span class="avis-verifie">✓ Client vérifié</span></figcaption></figure>`;
-  // Les avis du coloris regardé d'abord, puis les autres (ordre d'origine conservé dans chaque groupe)
-  const avisTries = (c) => {
-    if (!c) return S.avis;
-    const de = (a) => (a.coloris || "").toLowerCase().includes(c.court.toLowerCase());
-    return [...S.avis.filter(de), ...S.avis.filter((a) => !de(a))];
-  };
-  // Défilement des avis vers la gauche, une carte à la fois ; s'arrête quand le client touche ou survole
-  function defilerAvis(piste) {
-    let pause = 0;
-    const arreter = () => { pause = Date.now() + 7000; };
-    ["pointerdown", "touchstart", "wheel", "focusin"].forEach((ev) => piste.addEventListener(ev, arreter, { passive: true }));
-    piste.addEventListener("mouseenter", () => { pause = Infinity; });
-    piste.addEventListener("mouseleave", () => { pause = Date.now() + 1500; });
-    let visible = false;
-    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: 0.4 }).observe(piste);
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    setInterval(() => {
-      if (!visible || document.hidden || Date.now() < pause) return;
-      const carte = piste.querySelector(".avis-carte");
-      if (!carte) return;
-      const pas = carte.getBoundingClientRect().width + (parseFloat(getComputedStyle(piste).columnGap) || 0);
-      const fin = piste.scrollLeft + piste.clientWidth >= piste.scrollWidth - 8;
-      piste.scrollTo({ left: fin ? 0 : piste.scrollLeft + pas, behavior: "smooth" });
-    }, 3500);
   }
 
   /* ============================================================
