@@ -673,3 +673,18 @@ body { background: var(--creme); }
 /* Première image de la vidéo pendant le chargement */
 .heros-diapo { background-size: cover; background-position: center; }
 @media (max-width: 700px) { .heros-diapo { background-position: center 25%; } }
+
+/* Avis : bande qui défile sur le côté (le client glisse avec le doigt, elle avance seule sinon) */
+.avis-bande { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 16px; padding: 0 16px 10px; margin: 0 -16px; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+.avis-bande::-webkit-scrollbar { display: none; }
+.avis-bande .avis-carte { flex: 0 0 min(78%, 300px); scroll-snap-align: start; }
+@media (min-width: 900px) { .avis-bande { grid-template-columns: none; } .avis-bande .avis-carte { flex-basis: calc((100% - 42px) / 4); } }
+.avis-plus { text-align: center; margin-top: 22px; }
+.avis-plus .btn { border: 1px solid var(--noir); color: var(--noir); padding: 16px 22px; font-size: 12px; white-space: normal; max-width: 100%; line-height: 1.5; }
+.avis-plus .btn::before { background: var(--noir); }
+.avis-plus .btn:hover { color: var(--creme); }
+/* Page des avis : toutes les photos en grille */
+.avis-page-tete { text-align: center; max-width: 620px; margin: 0 auto 34px; }
+.avis-page-tete p { color: var(--gris); }
+.avis-toutes { margin-bottom: 40px; }
+@media (max-width: 899px) { .avis-toutes { grid-template-columns: repeat(2, 1fr); gap: 12px; } .avis-toutes .avis-carte figcaption { padding: 14px; } .avis-toutes .avis-carte p { font-size: 16px; margin-bottom: 10px; } }
