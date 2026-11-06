@@ -58,7 +58,11 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.08; let
 .nav a { position: relative; }
 .nav a::after { content: ""; position: absolute; left: 0; bottom: -4px; height: 1px; width: 0; background: currentColor; transition: width 0.4s var(--ease); }
 .nav a:hover::after { width: 100%; }
-.entete-droite { display: flex; justify-content: flex-end; }
+.entete-droite { display: flex; justify-content: flex-end; align-items: center; gap: 18px; }
+/* Lien vers la page de suivi de commande, à côté de « Commander » */
+.lien-suivi { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: .22em; text-transform: uppercase; }
+.lien-suivi svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; }
+@media (max-width: 899px) { .lien-suivi span { display: none; } .entete-droite { gap: 12px; } }
 .btn-entete { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; border: 1px solid currentColor; padding: 10px 18px; transition: 0.3s; }
 .btn-entete:hover { background: currentColor; }
 .btn-entete:hover span { color: var(--noir); }
