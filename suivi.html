@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Suivi de commande · DIWAN POLO CLUB</title>
+  <meta name="description" content="Suivez votre commande DIWAN POLO CLUB avec le code reçu sur WhatsApp : confirmation, livreur, livraison.">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://diwanclub.ma/suivi.html">
+  <meta name="theme-color" content="#0d0c0a">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/suivi/tour-hassan.jpg">
+  <link rel="stylesheet" href="css/suivi.css?v=2">
+</head>
+<body>
+
+  <!-- Fond : monuments du Maroc en fondu, avec un lent zoom -->
+  <div class="fond" aria-hidden="true"></div>
+  <div class="voile" aria-hidden="true"></div>
+
+  <header class="tete">
+    <a href="index.html" class="marque" aria-label="DIWAN POLO CLUB, accueil">
+      <img src="assets/logo.png" alt="" width="239" height="400"><span>DIWAN</span>
+    </a>
+  </header>
+
+  <main class="scene">
+    <!-- Saisie du code -->
+    <section class="carte" id="vue-code">
+      <p class="surtitre">Suivi de commande</p>
+      <h1>Où en est votre polo&nbsp;?</h1>
+      <p class="aide">Entrez le code reçu sur WhatsApp après la confirmation de votre commande.</p>
+      <form id="form-code" autocomplete="off">
+        <label class="champ-code">
+          <span>Votre code</span>
+          <input id="code" name="code" inputmode="text" autocapitalize="characters" spellcheck="false" placeholder="DW-4K7P2Q" maxlength="12" required>
+        </label>
+        <button class="bouton" type="submit"><span>Suivre ma commande</span></button>
+        <p class="erreur" id="erreur" role="alert" hidden></p>
+      </form>
+      <p class="petit">Pas de code ? Écrivez-nous sur <a class="lien-wa" href="#">WhatsApp</a>, nous vous répondons.</p>
+    </section>
+
+    <!-- Résultat -->
+    <section class="carte resultat" id="vue-suivi" hidden>
+      <p class="surtitre">Commande <span id="r-code"></span></p>
+      <h1 id="r-titre"></h1>
+      <p class="aide" id="r-phrase"></p>
+
+      <div class="article">
+        <img id="r-photo" src="" alt="">
+        <div><b id="r-produit"></b><small id="r-montant"></small></div>
+      </div>
+
+      <ol class="etapes" id="r-etapes"></ol>
+
+      <div class="livreur" id="r-livreur" hidden>
+        <div><small>Votre livreur</small><b id="r-livreur-nom"></b></div>
+        <a class="appeler" id="r-livreur-tel" href="#">Appeler</a>
+      </div>
+
+      <ul class="rassurance">
+        <li>Paiement à la réception, en espèces</li>
+        <li>Vous pouvez ouvrir le colis et essayer le polo</li>
+      </ul>
+
+      <div class="actions">
+        <a class="bouton bouton-clair lien-wa" href="#"><span>Une question ? WhatsApp</span></a>
+        <button class="lien-retour" type="button" id="autre-code">Suivre une autre commande</button>
+      </div>
+    </section>
+  </main>
+
+  <p class="legende" id="legende" aria-live="polite"></p>
+
+  <script src="js/config.js?v=64"></script>
+  <script src="js/suivi.js?v=3"></script>
+</body>
+</html>

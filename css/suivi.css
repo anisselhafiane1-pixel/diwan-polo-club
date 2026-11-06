@@ -1,0 +1,91 @@
+/* Page de suivi DIWAN : monuments du Maroc en fond, carte crème au premier plan */
+:root {
+  --noir: #0d0c0a; --creme: #f4efe6; --creme-2: #e9e2d4; --or: #b8975a; --or-clair: #d6bd8c;
+  --gris: #6f6a60; --ligne: rgba(13, 12, 10, .12); --vert: #2f7a4f;
+  --serif: "Cormorant Garamond", Georgia, serif; --sans: "Jost", system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body { min-height: 100dvh; font-family: var(--sans); font-weight: 300; color: var(--noir); background: var(--noir); overflow-x: clip; }
+a { color: inherit; }
+
+/* Fond : chaque photo s'efface dans la suivante, avec un zoom très lent */
+.fond { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
+.fond img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.06); transition: opacity 2.2s ease; }
+.fond img.active { opacity: 1; animation: zoom 9s linear forwards; }
+/* La première photo est là dès l'ouverture, sans fondu depuis le noir */
+.fond img.premiere { transition: none; }
+@keyframes zoom { from { transform: scale(1.06); } to { transform: scale(1.16); } }
+/* Voile : lisibilité de la carte, plus sombre en bas comme une fin de journée */
+.voile { position: fixed; inset: 0; z-index: 1; background:
+  radial-gradient(120% 80% at 50% 40%, rgba(13, 12, 10, .15), rgba(13, 12, 10, .55)),
+  linear-gradient(180deg, rgba(13, 12, 10, .45) 0%, rgba(13, 12, 10, .1) 30%, rgba(13, 12, 10, .65) 100%); }
+
+.tete { position: relative; z-index: 2; display: flex; justify-content: center; padding: calc(env(safe-area-inset-top) + 22px) 16px 0; }
+.marque { display: inline-flex; align-items: center; gap: 12px; color: var(--creme); text-decoration: none; }
+.marque img { width: 22px; height: auto; filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .4)); }
+.marque span { font-family: var(--serif); font-size: 26px; letter-spacing: .32em; font-weight: 500; text-shadow: 0 2px 14px rgba(0, 0, 0, .45); }
+
+.scene { position: relative; z-index: 3; min-height: calc(100dvh - 80px); display: grid; place-items: end center; padding: 34vh 16px 28px; }
+.carte { width: min(460px, 100%); background: rgba(244, 239, 230, .94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(214, 189, 140, .5); padding: 34px 28px 28px; box-shadow: 0 30px 80px rgba(0, 0, 0, .35); animation: monte .7s ease both; }
+@keyframes monte { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.surtitre { font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: var(--or); margin-bottom: 10px; }
+h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(32px, 8vw, 40px); line-height: 1.08; margin-bottom: 10px; }
+.aide { color: var(--gris); font-size: 15px; line-height: 1.55; margin-bottom: 22px; }
+
+.champ-code { display: block; margin-bottom: 12px; }
+.champ-code span { display: block; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gris); margin-bottom: 8px; }
+.champ-code input { width: 100%; padding: 16px 18px; font: 500 22px/1 var(--sans); letter-spacing: .28em; text-transform: uppercase; text-align: center;
+  background: #fff; border: 1px solid var(--ligne); color: var(--noir); outline: none; }
+.champ-code input:focus { border-color: var(--or); box-shadow: 0 0 0 3px rgba(184, 151, 90, .2); }
+.bouton { display: flex; justify-content: center; align-items: center; width: 100%; padding: 18px; background: var(--noir); color: var(--creme); border: 0; cursor: pointer;
+  font: 400 12px var(--sans); letter-spacing: .24em; text-transform: uppercase; text-decoration: none; transition: background .25s; }
+.bouton:hover { background: #2a2620; }
+.bouton-clair { background: transparent; color: var(--noir); border: 1px solid var(--noir); }
+.bouton-clair:hover { background: var(--noir); color: var(--creme); }
+.erreur { margin-top: 12px; color: #a3321f; font-size: 14px; }
+.petit { margin-top: 18px; font-size: 13px; color: var(--gris); text-align: center; }
+.petit a { color: var(--noir); text-underline-offset: 3px; }
+
+/* Résultat */
+.article { display: flex; align-items: center; gap: 14px; padding: 12px; background: #fff; border: 1px solid var(--ligne); margin-bottom: 24px; }
+.article img { width: 64px; height: 64px; object-fit: cover; background: var(--creme-2); }
+.article b { display: block; font-weight: 500; font-size: 15px; }
+.article small { color: var(--gris); font-size: 13px; }
+
+.etapes { list-style: none; position: relative; margin: 0 0 22px; padding-left: 4px; }
+.etapes li { position: relative; padding: 0 0 18px 34px; color: var(--gris); font-size: 15px; }
+.etapes li:last-child { padding-bottom: 0; }
+.etapes li::before { content: ""; position: absolute; left: 0; top: 2px; width: 16px; height: 16px; border-radius: 50%; border: 1px solid #c9c0ae; background: var(--creme); }
+.etapes li::after { content: ""; position: absolute; left: 8px; top: 20px; bottom: 2px; width: 1px; background: #d8d0bf; }
+.etapes li:last-child::after { display: none; }
+.etapes li.fait { color: var(--noir); }
+.etapes li.fait::before { background: var(--or); border-color: var(--or); box-shadow: inset 0 0 0 3px var(--creme); }
+.etapes li.fait::after { background: var(--or); }
+.etapes li.encours { color: var(--noir); font-weight: 500; }
+.etapes li.encours::before { background: var(--noir); border-color: var(--noir); box-shadow: 0 0 0 5px rgba(184, 151, 90, .25); animation: pulse 2s ease infinite; }
+.etapes small { display: block; font-weight: 300; color: var(--gris); font-size: 12px; margin-top: 2px; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 9px rgba(184, 151, 90, .08); } }
+
+.livreur { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; background: var(--noir); color: var(--creme); margin-bottom: 18px; }
+.livreur small { display: block; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--or-clair); }
+.livreur b { font-weight: 400; font-size: 16px; }
+.appeler { padding: 11px 16px; background: var(--or); color: var(--noir); text-decoration: none; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; white-space: nowrap; }
+
+.rassurance { list-style: none; margin-bottom: 22px; border-top: 1px solid var(--ligne); }
+.rassurance li { padding: 10px 0 10px 22px; border-bottom: 1px solid var(--ligne); font-size: 14px; color: var(--gris); position: relative; }
+.rassurance li::before { content: "✦"; position: absolute; left: 0; color: var(--or); font-size: 11px; top: 12px; }
+.actions { display: grid; gap: 10px; }
+.lien-retour { background: none; border: 0; color: var(--gris); font: 400 13px var(--sans); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 6px; }
+
+/* Nom du monument affiché, en bas */
+.legende { position: fixed; z-index: 2; left: 16px; right: 16px; top: calc(env(safe-area-inset-top) + 66px); text-align: center; color: rgba(244, 239, 230, .85);
+  font: italic 400 15px var(--serif); letter-spacing: .06em; text-shadow: 0 1px 10px rgba(0, 0, 0, .5); transition: opacity .8s; }
+.legende.cache { opacity: 0; }
+
+@media (min-width: 900px) {
+  .scene { place-items: center end; padding: 28px 9vw 70px 16px; }
+  .legende { top: auto; bottom: 28px; text-align: left; left: 40px; }
+}
+@media (prefers-reduced-motion: reduce) { .fond img.active { animation: none; } .carte { animation: none; } }

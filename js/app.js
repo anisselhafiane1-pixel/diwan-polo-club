@@ -633,7 +633,11 @@
           headers: { apikey: S.api.cle, Authorization: `Bearer ${S.api.cle}`, "Content-Type": "application/json" },
           body: JSON.stringify({ p: { id: d.id, statut: d.statut, nom: d.nom, telephone: d.telephone, ville: d.ville, adresse: d.adresse, offre: d.offre, quantite: d.quantite, articles: d.liste, club: d.club === "oui", source: d.source } }),
         });
-        return r.ok;
+        if (!r.ok) return false;
+        // La commande validée revient avec son code de suivi, montré sur la page de remerciement
+        const j = await r.json().catch(() => null);
+        if (j?.suivi) d.suivi = j.suivi;
+        return true;
       } catch { return false; }
     }
 
@@ -737,6 +741,7 @@
       $("#prenom").textContent = d.nom.split(" ")[0];
       $("#recap").innerHTML = [
         ["Commande", d.id], ["Articles", d.articles], ["Livraison", `${d.ville} · ${d.adresse}`], ["Téléphone", d.telephone], ["À payer à la livraison", mad(d.total)],
+        ...(d.suivi ? [["Code de suivi", `<a href="suivi.html?code=${encodeURIComponent(d.suivi)}" style="text-decoration:underline">${d.suivi}</a>`]] : []),
       ].map(([k, v]) => `<div><span>${k}</span><b>${v}</b></div>`).join("");
       if (d.club === "oui") $("#club-merci").hidden = false;
       // Message détaillé : chaque polo, total, adresse (sans lien)
@@ -746,6 +751,7 @@
         ...(polos.length ? polos : [`• ${d.articles}`]), "",
         `Total : ${mad(d.total)}, payé à la livraison`,
         `Nom : ${d.nom}`, `Téléphone : ${d.telephone}`, `Adresse : ${d.adresse}, ${d.ville}`,
+        ...(d.suivi ? [`Code de suivi : ${d.suivi}`] : []),
         ...(d.club === "oui" ? ["Membre du Club DIWAN"] : []),
       ].join("\n");
       $("#wa-confirmer").href = `https://wa.me/${S.whatsapp}?text=${encodeURIComponent(msg)}`;
